@@ -1,6 +1,6 @@
-import { SyntheticEvent, ChangeEvent, useState } from "react"
+import React, { SyntheticEvent, ChangeEvent, SetStateAction, useState } from "react"
 
-function SignUp() {
+function SignUp({setCurrentUser}: SetStateAction<any>) {
 
     const [formData, setFormData] = useState({name: '', email: ''})
 
@@ -26,7 +26,7 @@ function SignUp() {
             })
         })
         .then(resp => resp.json())
-        .then(console.log)
+        .then((newUser) => setCurrentUser(newUser))
     }
     
     return(
