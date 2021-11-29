@@ -1,6 +1,6 @@
-import React, { SyntheticEvent, ChangeEvent, SetStateAction, useState } from "react"
+import { SyntheticEvent, ChangeEvent, SetStateAction, useState } from "react"
 
-function SignUp({setCurrentUser}: SetStateAction<any>) {
+function SignUp({setCurrentUser}: SetStateAction<any>) { //need to figure out what to replace 'any' with
 
     const [formData, setFormData] = useState({name: '', email: ''})
 
@@ -32,8 +32,8 @@ function SignUp({setCurrentUser}: SetStateAction<any>) {
     return(
         <>
             <form onSubmit={handleSubmit}>
-                <label>Name: <input type="text" name="name" onChange={handleChange}></input></label>
-                <label>Email: <input type="text" name="email" onChange={handleChange}></input></label>
+                <label>Name: <input type="text" name="name" onChange={handleChange} value={formData.name}></input></label>
+                <label>Email: <input type="text" name="email" onChange={handleChange} value={formData.email}></input></label>
                 <input type='submit' value='Create Account'/>
             </form>
         </>
