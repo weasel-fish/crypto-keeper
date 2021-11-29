@@ -4,6 +4,7 @@ import LogInSignUp from './LogInSignUp';
 import Home from './Home'
 import NavBar from './NavBar'
 import {Routes, Route} from 'react-router-dom'
+import CurrencyPage from './CurrencyPage'
 
 export type UserObj = {
   id: number,
@@ -20,7 +21,9 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<LogInSignUp setCurrentUser={setCurrentUser}/>} />
+        <Route path='/currency/:id' element={<CurrencyPage />}/>
       </Routes>
+      {/* <CurrencyList /> */}
     </>
   )
 }
