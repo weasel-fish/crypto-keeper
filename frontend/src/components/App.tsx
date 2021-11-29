@@ -12,12 +12,11 @@ export type UserObj = {
 }
 
 function App() {
-  const [currentUser, setCurrentUser] = useState<UserObj | {}>({})
- 
-  console.log(currentUser)
+  const [currentUser, setCurrentUser] = useState<UserObj | null>(null)
+
   return (
     <> 
-      <NavBar />
+      <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser}/>
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<LogInSignUp setCurrentUser={setCurrentUser}/>} />

@@ -27,7 +27,7 @@ function LogIn({setCurrentUser}: SetStateAction<any>) {
             <h1>Select User</h1>
             <form onSubmit={handleSubmit}>
                 <select onChange={handleChange}>
-                    {userList.map(user => <option value={user.id}>{user.name}</option>)}
+                    {userList.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}
                 </select>
                 <input type='submit' />
             </form>
