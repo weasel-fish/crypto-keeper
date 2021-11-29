@@ -1,7 +1,9 @@
 import '../App.css';
 import { useState} from 'react'
-import SignUp from './SignUp'
-import LogIn from './LogIn'
+import LogInSignUp from './LogInSignUp';
+import Home from './Home'
+import NavBar from './NavBar'
+import {Routes, Route} from 'react-router-dom'
 
 export type UserObj = {
   id: number,
@@ -14,8 +16,12 @@ function App() {
  
   console.log(currentUser)
   return (
-    <>
-      {currentUser ? <LogIn setCurrentUser={setCurrentUser}/>: <SignUp setCurrentUser={setCurrentUser}/>}
+    <> 
+      <NavBar />
+      <Routes>
+        <Route path='/' element={<Home />}/>
+        <Route path='/login' element={<LogInSignUp setCurrentUser={setCurrentUser}/>} />
+      </Routes>
     </>
   )
 }

@@ -21,9 +21,10 @@ function LogIn({setCurrentUser}: SetStateAction<any>) {
         e.preventDefault()
         setCurrentUser(selected)
     }
-    
+
     return(
         <>
+            <h1>Select User</h1>
             <form onSubmit={handleSubmit}>
                 <select onChange={handleChange}>
                     {userList.map(user => <option value={user.id}>{user.name}</option>)}
