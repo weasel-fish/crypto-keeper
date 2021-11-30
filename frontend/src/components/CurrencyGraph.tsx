@@ -6,33 +6,49 @@ type CurrGraphProps = {
 }
 
 function CurrencyGraph({currency, id}: CurrGraphProps) {
-    let currentDateTime = new Date().toISOString()
-    let currentDate = currentDateTime.split('T')[0]
-    console.log(currentDate)
-    let dayEarlier = currentDate.split('-')[2]
-    let currentTimeArray = currentDateTime.split('T')[1].split('.')[0].split(':')
-    let currentHour = currentTimeArray[0]
-    let currentMin = currentTimeArray[1]
-    let currentSec = currentTimeArray[2]
-    let granularity = 3600
-    
+
+    const defaultParams = makeDateParams()
+    const [candleParams, setCandleParams] = useState(defaultParams)
+    const [candleData, setCandleData] = useState([])
 
     useEffect(() => {
-        fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${granularity}&start=2021-11-29T${currentHour}%3A${currentMin}%3A${currentSec}&end=${currentDate}T${currentHour}%3A${currentMin}%3A${currentSec}`)
+        fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=2021-11-29T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
         .then(resp => resp.json())
-        .then(console.log)
+        .then(setCandleData)
     }, [])
-
-
-
-    let sample: string = 'https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${granularity}&start=${yearMonthDay}T${hour}%3A${min}%3A${sec}&end=${yearMonthDay}T${hour}%3A${min}%3A${sec}'
-    let example: string = 'https://api.exchange.coinbase.com/products/BTC-USD/candles?granularity=3600&start=2021-11-29T12%3A00%3A00&end=2021-11-30T12%3A00%3A00'
 
     return (
         <>
             <p>Hello I am a graph of {currency}</p>
         </>
     )
+}
+ 
+function makeDateParams() {
+    let currentDateTime = new Date().toISOString()
+
+    let currentDate = currentDateTime.split('T')[0]
+    let dayEarlier = currentDate.split('-')[2]
+
+    let currentTimeArray = currentDateTime.split('T')[1].split('.')[0].split(':')
+    let currentHour = currentTimeArray[0]
+    let currentMin = currentTimeArray[1]
+    let currentSec = currentTimeArray[2]
+    let granularity = 3600
+
+    let dateParams = {
+        endDate: currentDate,
+        startDate: dayEarlier,
+        endHour: currentHour,
+        startHour: currentHour,
+        endMin: currentMin,
+        startMin: currentMin,
+        endSec: currentSec,
+        startSec: currentSec,
+        granularity
+    }
+    
+    return dateParams
 }
 
 export default CurrencyGraph
