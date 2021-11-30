@@ -13,14 +13,14 @@ function CurrencyList() {
         .then(setCurrencies)
     }, [])
 
-    function handleClick(id: string) {
-        navigate(`/currency/${id}`)
+    function handleClick(name: string, id: string) {
+        navigate(`/currency/${name}(${id})`)
     }
 
     console.log(currencies)
     return (
         <>
-            {currencies.map(curr => <p onClick={() => handleClick(curr.id)}>{curr.name + ' | ' + curr.id}</p>)}
+            {currencies.map(curr => <p onClick={() => handleClick(curr.name, curr.id)}>{curr.name + ' | ' + curr.id}</p>)}
         </>
     )
 }

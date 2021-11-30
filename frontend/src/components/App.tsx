@@ -21,7 +21,7 @@ function App() {
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<LogInSignUp setCurrentUser={setCurrentUser}/>} />
-        <Route path='/currency/:id' element={<CurrencyPage />}/>
+        <Route path='/currency/:name(:id)' element={<CurrencyPage />}/>
       </Routes>
       {/* <CurrencyList /> */}
     </>
