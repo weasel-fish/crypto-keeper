@@ -10,35 +10,43 @@ function CurrencyGraph({currency, id}: CurrGraphProps) {
     const defaultParams = makeDateParams()
     const [candleParams, setCandleParams] = useState(defaultParams)
     const [candleData, setCandleData] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=2021-11-29T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
+        fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=${candleParams.startDate}T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
         .then(resp => resp.json())
-        .then(setCandleData)
+        .then(data => {
+            setCandleData(data)
+            setLoading(false)
+        })
     }, [])
+
+    console.log(candleData)
 
     return (
         <>
-            <p>Hello I am a graph of {currency}</p>
+            {loading ? <p>Loading...</p>:<p>Hello I am a graph of {currency}</p>}
         </>
     )
 }
  
 function makeDateParams() {
-    let currentDateTime = new Date().toISOString()
 
-    let currentDate = currentDateTime.split('T')[0]
-    let dayEarlier = currentDate.split('-')[2]
+    let endDateTime = new Date()
+    let startDateTime = new Date(endDateTime.getTime())
+    startDateTime.setDate(endDateTime.getDate() - 1)
 
-    let currentTimeArray = currentDateTime.split('T')[1].split('.')[0].split(':')
+    let endDate = endDateTime.toISOString().split('T')[0]
+    let startDate = startDateTime.toISOString().split('T')[0]
+    let currentTimeArray = startDateTime.toISOString().split('T')[1].split('.')[0].split(':')
     let currentHour = currentTimeArray[0]
     let currentMin = currentTimeArray[1]
     let currentSec = currentTimeArray[2]
     let granularity = 3600
 
     let dateParams = {
-        endDate: currentDate,
-        startDate: dayEarlier,
+        endDate,
+        startDate,
         endHour: currentHour,
         startHour: currentHour,
         endMin: currentMin,
@@ -47,7 +55,7 @@ function makeDateParams() {
         startSec: currentSec,
         granularity
     }
-    
+
     return dateParams
 }
 
