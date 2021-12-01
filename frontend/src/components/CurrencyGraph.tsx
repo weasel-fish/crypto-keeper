@@ -24,21 +24,31 @@ function CurrencyGraph({currency, id}: CurrGraphProps) {
 
     console.log(candleData)
 
-    function convertCandleData(data: any) {
-        let converted = data.map((array: any) => {
-            return {
-                x: new Date(array[0]*1000),
-                y: [array[1], array[2], array[3], array[4]]
-            }
-        })
-        return converted
-    }
-
     return (
         <>
             {loading ? <p>Loading...</p>:<CandlestickChart candles={candleData}/>}
         </>
     )
+}
+
+// Coinbase: low, high, open, close
+// Chart: open, high, low, close
+
+function convertCandleData(data: any) {
+    let converted = data.map((array: any) => {
+        return {
+            x: formatDate(new Date(array[0]*1000)),
+            y: [array[3], array[2], array[1], array[4]]
+        }
+    })
+    return converted.reverse()
+}
+
+function formatDate(date: Date) {
+    let day = date.toLocaleDateString()
+    let time = date.toLocaleTimeString().replace(':00 ', ' ')
+    
+    return day + ' ' + time
 }
  
 function makeDateParams() {

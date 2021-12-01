@@ -5,12 +5,18 @@ function CandlestickChart({candles}: any) {
 
     const [candleData, setCandleData] = useState(candles)
 
-    const options = {}
+    const options = {
+        xaxis: {
+            // labels: {
+            //     show: false
+            // }
+        }
+    }
 
     let seriesData = [{
         data: candleData
     }]
-    
+
     return (
         <>
             <Chart 

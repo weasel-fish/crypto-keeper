@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 import {useNavigate} from 'react-router-dom'
 import { COIN_API_ROOT } from "../constants"
 
 function CurrencyList() {
 
     const [currencies, setCurrencies] = useState<any[]>([])
+    const [searchText, setSearchText] = useState<string>('')
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -17,10 +18,16 @@ function CurrencyList() {
         navigate(`/currency/${name}(${id})`)
     }
 
-    console.log(currencies)
+    function handleSearch(e: ChangeEvent<any>){
+        setSearchText(e.target.value)
+    }
+
+    const filteredCurrencies = currencies.filter(curr => curr.name.toLowerCase().includes(searchText.toLowerCase()) || curr.id.toLowerCase().includes(searchText.toLowerCase()))
+
     return (
-        <>
-            {currencies.map(curr => <p onClick={() => handleClick(curr.name, curr.id)}>{curr.name + ' | ' + curr.id}</p>)}
+        <>  
+            <label>Search:<input type='text' value={searchText} onChange={handleSearch}></input></label>
+            {filteredCurrencies.map(curr => <p onClick={() => handleClick(curr.name, curr.id)}>{curr.name + ' | ' + curr.id}</p>)}
         </>
     )
 }
