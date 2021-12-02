@@ -1,8 +1,8 @@
 import { SyntheticEvent, ChangeEvent, SetStateAction, useEffect, useState } from 'react'
 import {UserObj} from './App'
 
-function LogIn({setCurrentUser}: SetStateAction<any>) {
-    const [userList, setUserList] = useState< Array<UserObj> | [] >([])
+function LogIn({handleLogin}: any) {
+    const [userList, setUserList] = useState<Array<UserObj> | [] >([])
     const [selected, setSelected] = useState<UserObj>()
 
     useEffect(() => {
@@ -19,7 +19,7 @@ function LogIn({setCurrentUser}: SetStateAction<any>) {
 
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault()
-        setCurrentUser(selected)
+        handleLogin(selected)
     }
 
     return(

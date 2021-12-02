@@ -1,6 +1,6 @@
 import { SyntheticEvent, ChangeEvent, SetStateAction, useState } from "react"
 
-function SignUp({setCurrentUser}: SetStateAction<any>) { //need to figure out what to replace 'any' with
+function SignUp({handleLogin}: any) { //need to figure out what to replace 'any' with
 
     const [formData, setFormData] = useState({name: '', email: ''})
 
@@ -26,7 +26,7 @@ function SignUp({setCurrentUser}: SetStateAction<any>) { //need to figure out wh
             })
         })
         .then(resp => resp.json())
-        .then((newUser) => setCurrentUser(newUser))
+        .then((newUser) => handleLogin(newUser))
     }
     
     return(
