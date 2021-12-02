@@ -85,11 +85,58 @@ const deleteUser = (req:Request, res:Response) => {
   })
 }
 
+const getUserWallets = (req:Request, res:Response) => {
+  const id = parseInt(req.params.id)
+  pool.query('SELECT * FROM user_wallets WHERE user_id = $1 ORDER BY id ASC', [id], (error: Error, result: any) => {
+    if (error) {
+        throw error
+    }
+    let rows = result.rows
+    res.status(200).json(rows)
+})
+}
+const createUserWallet = (req:Request, res:Response) => {
+  const { user_id, currency_id, amount, avg_cost } = req.body
+
+  pool.query('INSERT INTO user_wallets (user_id, currency_id, amount, avg_cost) VALUES ($1, $2, $3, $4)', [user_id, currency_id, amount, avg_cost], (error: Error, result: any) => {
+    if(error) {
+      throw error //Shuts down server, revisit
+    }
+    pool.query('SELECT * FROM user_wallets WHERE user_id = $1 AND currency_id = $2', [user_id, currency_id], (error: Error, result: any) => {
+      if(error) {
+        throw error //Shuts down server, revisit
+      }
+      res.status(201).json(result.rows[0])
+    })
+    
+  })
+}
+
+function updateUserWallet(req:Request, res:Response) {
+  const id = parseInt(req.params.id)
+  const { amount, avg_cost } = req.body
+  pool.query('UPDATE user_wallets SET amount = $1, avg_cost = $2 WHERE id = $3', [amount, avg_cost, id], (error: Error, results: any) => {
+    if (error) {
+      throw error
+    }
+    pool.query('SELECT * FROM user_wallets WHERE id = $1', [id], (error: Error, result: any) => {
+      if(error) {
+        throw error //Shuts down server, revisit
+      }
+      res.status(201).json(result.rows[0])
+    })
+  }
+)
+}
+
 module.exports = {
   getUsers,
   displayHome,
   getUserById,
   createUser,
   updateUser,
-  deleteUser
+  deleteUser,
+  getUserWallets,
+  createUserWallet,
+  updateUserWallet
 }
