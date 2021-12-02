@@ -1,4 +1,4 @@
-import {useEffect, useState } from 'react'
+import {ChangeEvent, useEffect, useState } from 'react'
 import CandlestickChart from './CandlestickChart'
 
 type CurrGraphProps = {
@@ -8,14 +8,17 @@ type CurrGraphProps = {
 
 function CurrencyGraph({currency, id}: CurrGraphProps) {
 
-    const defaultParams = makeDateParams()
-    const [candleParams, setCandleParams] = useState(defaultParams)
     const [candleData, setCandleData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState<string|null>(null)
+    // const [rangeOption, setRangeOption] = useState('24')
+    // const defaultParams = makeDateParams(rangeOption)
+    const [candleParams, setCandleParams] = useState(makeDateParams('24'))
 
     useEffect(() => {
-
+        console.log('fetching with')
+        console.log(candleParams)
+        setLoading(true)
         async function fetchCandles() {
             let resp = await fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=${candleParams.startDate}T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
 
@@ -33,22 +36,22 @@ function CurrencyGraph({currency, id}: CurrGraphProps) {
         }
 
         fetchCandles()
+    }, [candleParams])
 
-        // fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=${candleParams.startDate}T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
-        // .then(resp => {
-        //     console.log(resp.status)
-        //     return resp.json()
-        // })
-        // .then(data => {
-        //     setCandleData(convertCandleData(data))
-        //     setLoading(false)
-        // })
-    }, [])
-
+    console.log(candleParams)
     console.log(candleData)
+
+    function handleRangeChange(e: ChangeEvent<any>) {
+        setCandleParams(makeDateParams(e.target.value))
+    }
 
     return (
         <>
+            <select onChange={handleRangeChange}>
+                <option selected value='24'>Last 24 Hours</option>
+                <option value='30'>Last 30 Days</option>
+                <option value='6'>Last 6 Months</option>
+            </select>
             {loading ? <p>Loading...</p>: !error ? <CandlestickChart candles={candleData}/> : <p>{error}</p>}
         </>
     )
@@ -74,21 +77,41 @@ function formatDate(date: Date) {
     return day + ' ' + time
 }
  
-function makeDateParams() {
+function makeDateParams(range: string) {
+    console.log(range)
+    let daysPrior
+    let granularity
 
+    switch(range) {
+        case '24':
+            daysPrior = 1
+            granularity = 3600
+            break
+        case '30':
+            daysPrior = 30
+            granularity = 86400
+            break
+        case '6':
+            daysPrior = 180
+            granularity = 86400
+            break
+        default:
+            daysPrior = 1
+            granularity = 3600
+    }
+    
     let endDateTime = new Date()
     let startDateTime = new Date(endDateTime.getTime())
     console.log(endDateTime)
-    startDateTime.setDate(endDateTime.getDate() - 1)
+    startDateTime.setDate(endDateTime.getDate() - daysPrior)
     console.log(startDateTime)
-
+    // I think some of this is redundant, can clean it up!
     let endDate = endDateTime.toISOString().split('T')[0]
     let startDate = startDateTime.toISOString().split('T')[0]
     let currentTimeArray = startDateTime.toISOString().split('T')[1].split('.')[0].split(':')
     let currentHour = currentTimeArray[0]
     let currentMin = currentTimeArray[1]
     let currentSec = currentTimeArray[2]
-    let granularity = 3600
 
     let dateParams = {
         endDate,
