@@ -11,7 +11,6 @@ function CurrencyList() {
     const navigate = useNavigate()
 
     useEffect(() => {
-
         async function fetchCurrencyList() {
             let resp = await fetch(COIN_API_ROOT+'/currencies')
 
@@ -27,14 +26,7 @@ function CurrencyList() {
                     })
             }
         }
-
         fetchCurrencyList()
-        // fetch(COIN_API_ROOT+'/currencies')
-        // .then(resp => resp.json())
-        // .then(data => {
-        //     setCurrencies(data)
-        //     setLoading(false)
-        // })
     }, [])
 
     function handleClick(name: string, id: string) {

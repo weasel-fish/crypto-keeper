@@ -42,11 +42,11 @@ function App() {
 
   return (
     <> 
-      <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser}/>
+      <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} setCurrentUserWallets={setCurrentUserWallets}/>
       <Routes>
         <Route path='/' element={<Home />}/>
         <Route path='/login' element={<LogInSignUp handleLogin={handleLogin}/>} />
-        <Route path='/currency/:name(:id)' element={<CurrencyPage />}/>
+        <Route path='/currency/:name(:id)' element={<CurrencyPage currentUser={currentUser} wallets={currentUserWallets}/>}/>
       </Routes>
       {/* <CurrencyList /> */}
     </>

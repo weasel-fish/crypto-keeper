@@ -5,15 +5,17 @@ import {UserObj} from './App'
 type NavBarProps = {
     currentUser: UserObj | null
     setCurrentUser: SetStateAction<any>
+    setCurrentUserWallets: SetStateAction<any>
 }
 
-function NavBar({currentUser, setCurrentUser}: NavBarProps) {
+function NavBar({currentUser, setCurrentUser, setCurrentUserWallets}: NavBarProps) {
 
     const navigate = useNavigate()
 
     function handleLogout() {
         navigate('/')
         setCurrentUser(null)
+        setCurrentUserWallets(null)
     }
 
     return (

@@ -27,9 +27,10 @@ function LogIn({handleLogin}: any) {
             <h1>Select User</h1>
             <form onSubmit={handleSubmit}>
                 <select onChange={handleChange}>
+                    <option value=''>---</option>
                     {userList.map(user => <option key={user.id} value={user.id}>{user.name}</option>)}
                 </select>
-                <input type='submit' />
+                <input type='submit' disabled={!selected}/>
             </form>
         </>
     )
