@@ -129,6 +129,18 @@ function updateUserWallet(req:Request, res:Response) {
 )
 }
 
+const deleteUserWallet = (req:Request, res:Response) => {
+  const id = parseInt(req.params.id)
+
+  pool.query('DELETE FROM user_wallets WHERE id = $1', [id], (error: Error, result: any) => {
+    if (error) {
+      throw error
+    }
+
+    res.status(200).send('Wallet deleted successfully.')
+  })
+}
+
 module.exports = {
   getUsers,
   displayHome,
@@ -138,5 +150,6 @@ module.exports = {
   deleteUser,
   getUserWallets,
   createUserWallet,
-  updateUserWallet
+  updateUserWallet,
+  deleteUserWallet
 }
