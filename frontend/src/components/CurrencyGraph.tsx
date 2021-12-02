@@ -12,21 +12,44 @@ function CurrencyGraph({currency, id}: CurrGraphProps) {
     const [candleParams, setCandleParams] = useState(defaultParams)
     const [candleData, setCandleData] = useState([])
     const [loading, setLoading] = useState(true)
+    const [error, setError] = useState<string|null>(null)
 
     useEffect(() => {
-        fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=${candleParams.startDate}T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
-        .then(resp => resp.json())
-        .then(data => {
-            setCandleData(convertCandleData(data))
-            setLoading(false)
-        })
+
+        async function fetchCandles() {
+            let resp = await fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=${candleParams.startDate}T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
+
+            if(resp.ok){
+                resp.json().then(data => {
+                    setCandleData(convertCandleData(data))
+                    setLoading(false)
+                })
+            } else {
+                resp.json().then(data => {
+                    setError(`Error: ${data.message}`)
+                    setLoading(false)
+                })
+            }
+        }
+
+        fetchCandles()
+
+        // fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=${candleParams.startDate}T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
+        // .then(resp => {
+        //     console.log(resp.status)
+        //     return resp.json()
+        // })
+        // .then(data => {
+        //     setCandleData(convertCandleData(data))
+        //     setLoading(false)
+        // })
     }, [])
 
     console.log(candleData)
 
     return (
         <>
-            {loading ? <p>Loading...</p>:<CandlestickChart candles={candleData}/>}
+            {loading ? <p>Loading...</p>: !error ? <CandlestickChart candles={candleData}/> : <p>{error}</p>}
         </>
     )
 }

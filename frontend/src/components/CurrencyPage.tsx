@@ -7,23 +7,41 @@ function CurrencyPage() {
     const params = useParams()
     const [cryptoData, setCryptoData] = useState<any>({})
     const [loading, setLoading] = useState(true)
-    console.log(COIN_API_ROOT+`/products/${params.id}-USD/ticker`)
+    const [error, setError] = useState<string|null>(null)
 
     useEffect(() => {
-        fetch(COIN_API_ROOT+`/products/${params.id}-USD/ticker`)
-        .then(resp => resp.json())
-        .then(data => {
-            console.log(data)
-            setCryptoData(data)
-            setLoading(false)
-        })
+        async function fetchTicker() {
+            let resp = await fetch(COIN_API_ROOT+`/products/${params.id}-USD/ticker`)
+
+            if(resp.ok) {
+                resp.json().then(data => {
+                    setCryptoData(data)
+                    setLoading(false)
+                })
+            } else {
+                resp.json().then(data => {
+                    setError(`Error: ${data.message}`)
+                    setLoading(false)
+                })
+            }
+        }
+
+        fetchTicker()
+        // fetch(COIN_API_ROOT+`/products/${params.id}-USD/ticker`)
+        // .then(resp => resp.json())
+        // .then(data => {
+        //     console.log(data)
+        //     setCryptoData(data)
+        //     setLoading(false)
+        // })
     }, [])
 
     return (
         <>
             <h1>{params.name}</h1>
-            <p>Current Price: {loading ? null : `$${cryptoData.price} per coin`}</p>
-            <CurrencyGraph currency={params.name} id={params.id}/>
+            {loading ? <p>Loading...</p> : !error ? `Current Price: $${cryptoData.price} per coin` : <p>Error: Data not found</p>}
+            {/* Buy / Sell component */}
+            {!error ? <CurrencyGraph currency={params.name} id={params.id}/> : null}
         </>
     )
 }

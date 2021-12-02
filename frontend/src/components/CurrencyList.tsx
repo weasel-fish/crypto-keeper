@@ -6,12 +6,35 @@ function CurrencyList() {
 
     const [currencies, setCurrencies] = useState<any[]>([])
     const [searchText, setSearchText] = useState<string>('')
+    const [loading, setLoading] = useState<boolean>(true)
+    const [error, setError] = useState<string|null>(null)
     const navigate = useNavigate()
 
     useEffect(() => {
-        fetch(COIN_API_ROOT+'/currencies')
-        .then(resp => resp.json())
-        .then(setCurrencies)
+
+        async function fetchCurrencyList() {
+            let resp = await fetch(COIN_API_ROOT+'/currencies')
+
+            if(resp.ok) {
+                resp.json().then(data => {
+                    setCurrencies(data)
+                    setLoading(false)
+                    })
+            } else {
+                resp.json().then(data => {
+                    setError(`Error: ${data.message}`)
+                    setLoading(false)
+                    })
+            }
+        }
+
+        fetchCurrencyList()
+        // fetch(COIN_API_ROOT+'/currencies')
+        // .then(resp => resp.json())
+        // .then(data => {
+        //     setCurrencies(data)
+        //     setLoading(false)
+        // })
     }, [])
 
     function handleClick(name: string, id: string) {
@@ -27,7 +50,7 @@ function CurrencyList() {
     return (
         <>  
             <label>Search:<input type='text' value={searchText} onChange={handleSearch}></input></label>
-            {filteredCurrencies.map(curr => <p onClick={() => handleClick(curr.name, curr.id)}>{curr.name + ' | ' + curr.id}</p>)}
+            {loading ? <p>Loading...</p> : !error ? filteredCurrencies.map(curr => <p onClick={() => handleClick(curr.name, curr.id)}>{curr.name + ' | ' + curr.id}</p>) : <p>{error}</p>}
         </>
     )
 }

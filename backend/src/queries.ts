@@ -85,4 +85,11 @@ const deleteUser = (req:Request, res:Response) => {
   })
 }
 
-module.exports = {getUsers, displayHome, getUserById, createUser, updateUser, deleteUser}
+module.exports = {
+  getUsers,
+  displayHome,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser
+}
