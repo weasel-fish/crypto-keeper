@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom'
-import {COIN_API_ROOT} from '../constants'
+import {COIN_API_ROOT, API_ROOT} from '../constants'
 import CurrencyGraph from './CurrencyGraph'
 import CurrencyAccount from './CurrencyAccount'
 import {UserObj} from './App'
@@ -14,8 +14,9 @@ function CurrencyPage({currentUser, wallets}: CurrencyPageProps) {
     const params = useParams()
     const [cryptoData, setCryptoData] = useState<any>({})
     const [loading, setLoading] = useState(true)
+    const [walletLoading, setWalletLoading] = useState(true)
     const [error, setError] = useState<string|null>(null)
-    const [thisWallet, setThisWallet] = useState(currentUser ? wallets.find((wallet: any) => wallet.currency_id == params.id): null)
+    const [thisWallet, setThisWallet] = useState(null)
     
     useEffect(() => {
         async function fetchTicker() {
@@ -34,11 +35,35 @@ function CurrencyPage({currentUser, wallets}: CurrencyPageProps) {
             }
         }
 
+        async function fetchWallet(id: number) {
+            console.log(API_ROOT+`/user_wallet/${id}/${params.id}`)
+            let resp = await fetch(API_ROOT+`/user_wallet/${id}/${params.id}`)
+
+            if(resp.ok) {
+                resp.json().then(data => {
+                    if(Object.keys(data).length != 0){
+                        setThisWallet(data)
+                    }
+                    setWalletLoading(false)
+                })
+            } else {
+                resp.json().then(data => {
+                    setError(`Error: ${data.message}`)
+                })
+            }
+        }
+
+        if(currentUser){
+            console.log('fetching wallet')
+        fetchWallet(currentUser.id)
+        }
+
         fetchTicker()
     }, [])
 
     console.log(currentUser)
     console.log(wallets)
+    console.log('THIS WALLET:')
     console.log(thisWallet)
 
     let currencyData = {
@@ -51,10 +76,13 @@ function CurrencyPage({currentUser, wallets}: CurrencyPageProps) {
         <>
             <h1>{params.name}</h1>
             {loading ? <p>Loading...</p> : !error ? `Current Price: $${cryptoData.price} per coin` : <p>Error: Data not found</p>}
-            {currentUser ? <CurrencyAccount currencyData={currencyData} currentUser={currentUser} setThisWallet={setThisWallet} thisWallet={thisWallet}/> : null }
+            {currentUser && !walletLoading ? <CurrencyAccount currencyData={currencyData} currentUser={currentUser} setThisWallet={setThisWallet} thisWallet={thisWallet}/> : null }
             {!error ? <CurrencyGraph currency={params.name} id={params.id}/> : null}
         </>
     )
 }
+
+
+
 
 export default CurrencyPage

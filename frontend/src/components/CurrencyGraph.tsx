@@ -16,8 +16,6 @@ function CurrencyGraph({currency, id}: CurrGraphProps) {
     const [candleParams, setCandleParams] = useState(makeDateParams('24'))
 
     useEffect(() => {
-        console.log('fetching with')
-        console.log(candleParams)
         setLoading(true)
         async function fetchCandles() {
             let resp = await fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=${candleParams.startDate}T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
@@ -37,9 +35,6 @@ function CurrencyGraph({currency, id}: CurrGraphProps) {
 
         fetchCandles()
     }, [candleParams])
-
-    console.log(candleParams)
-    console.log(candleData)
 
     function handleRangeChange(e: ChangeEvent<any>) {
         setCandleParams(makeDateParams(e.target.value))
@@ -78,7 +73,7 @@ function formatDate(date: Date) {
 }
  
 function makeDateParams(range: string) {
-    console.log(range)
+
     let daysPrior
     let granularity
 
@@ -102,9 +97,9 @@ function makeDateParams(range: string) {
     
     let endDateTime = new Date()
     let startDateTime = new Date(endDateTime.getTime())
-    console.log(endDateTime)
+
     startDateTime.setDate(endDateTime.getDate() - daysPrior)
-    console.log(startDateTime)
+
     // I think some of this is redundant, can clean it up!
     let endDate = endDateTime.toISOString().split('T')[0]
     let startDate = startDateTime.toISOString().split('T')[0]

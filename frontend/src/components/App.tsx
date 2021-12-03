@@ -16,27 +16,26 @@ export type UserObj = {
 function App() {
   const [currentUser, setCurrentUser] = useState<UserObj | null>(null)
   const [currentUserWallets, setCurrentUserWallets] = useState<any |null>(null)
-  console.log(currentUser)
-  console.log(currentUserWallets)
+
   const navigate = useNavigate()
 
-  async function fetchUserWallets(id: number) {
-    let resp = await fetch(`${API_ROOT}/user_wallets/${id}`)
+  // async function fetchUserWallets(id: number) {
+  //   let resp = await fetch(`${API_ROOT}/user_wallets/${id}`)
 
-    if(resp.ok) {
-      resp.json().then(data => {
-        setCurrentUserWallets(data)
-      })
-    } else {
-      resp.json().then(data => {
-        console.log('Uh oh!')
-      })
-    }
-  }
+  //   if(resp.ok) {
+  //     resp.json().then(data => {
+  //       setCurrentUserWallets(data)
+  //     })
+  //   } else {
+  //     resp.json().then(data => {
+  //       console.log('Uh oh!')
+  //     })
+  //   }
+  // }
 
   function handleLogin(user: UserObj):void {
       setCurrentUser(user)
-      fetchUserWallets(user.id)
+      // fetchUserWallets(user.id)
       navigate('/')
   }
 

@@ -95,6 +95,21 @@ const getUserWallets = (req:Request, res:Response) => {
     res.status(200).json(rows)
 })
 }
+
+const getUserWallet = (req:Request, res:Response) => {
+  const user_id = req.params.user_id
+  const currency_id = req.params.currency_id
+
+  pool.query('SELECT * FROM user_wallets WHERE user_id = $1 AND currency_id = $2', [user_id, currency_id], (error: Error, result: any) => {
+    console.log(error)
+    // if (error) {
+    //     throw error
+    // }
+    let customResult = result.rows[0] ? result.rows[0] : {}
+    res.status(200).json(customResult)
+  })
+}
+
 const createUserWallet = (req:Request, res:Response) => {
   const { user_id, currency_id, amount, avg_cost } = req.body
 
@@ -136,7 +151,6 @@ const deleteUserWallet = (req:Request, res:Response) => {
     if (error) {
       throw error
     }
-
     res.status(200).send('Wallet deleted successfully.')
   })
 }
@@ -148,6 +162,7 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  getUserWallet,
   getUserWallets,
   createUserWallet,
   updateUserWallet,
