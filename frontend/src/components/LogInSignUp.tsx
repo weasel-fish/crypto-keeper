@@ -8,11 +8,11 @@ function LogInSignUp({handleLogin}: any) {
     const [newUser, setNewUser] = useState(false)
 
     return (
-        <>
+        <div id="login-signup">
             {newUser ? <SignUp handleLogin={handleLogin}/> : <LogIn handleLogin={handleLogin}/>}
             <p>{newUser ? 'Already a user?' : "Don't have an account?"}</p>
             <Button onClick={() => setNewUser(!newUser)}>{newUser ? 'Log In' : 'Sign Up'}</Button>
-        </>
+        </div>
     )
 }
 

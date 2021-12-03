@@ -8,7 +8,7 @@ type HomeProps = {
 function Home({currentUser}:HomeProps) {
     return (
         <div className="homePage">
-            <h1>{currentUser ? `Welcome ${currentUser?.name}`:'Welcome!'}</h1>
+            <h2>{currentUser ? `Welcome ${currentUser?.name}`:'Welcome!'}</h2>
             <CurrencyList />
         </div>
     )

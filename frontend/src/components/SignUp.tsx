@@ -28,13 +28,16 @@ function SignUp({handleLogin}: any) { //need to figure out what to replace 'any'
             })
         })
         .then(resp => resp.json())
-        .then((newUser) => handleLogin(newUser))
+        .then((newUser) => {
+            console.log(newUser)
+            // handleLogin(newUser)
+    })
     }
     
     return(
         <>
         {/* <Input placeholder="Search" value={searchText} onChange={handleSearch}/> */}
-            <form onSubmit={handleSubmit}>
+            <form id='signup-form' onSubmit={handleSubmit}>
                 <Input placeholder="Name" type="text" name="name" onChange={handleChange} value={formData.name}></Input>
                 <Input placeholder="Email" type="text" name="email" onChange={handleChange} value={formData.email}></Input>
                 <Button type='submit'>Create Account</Button>

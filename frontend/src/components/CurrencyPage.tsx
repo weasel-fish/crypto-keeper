@@ -68,12 +68,20 @@ function CurrencyPage({currentUser, wallets}: CurrencyPageProps) {
     }
 
     return (
-        <div className="currencyPage">
-            <h1>{params.name}</h1>
-            {loading ? <p>Loading...</p> : !error ? `Current Price: $${cryptoData.price} per coin` : <p>Error: Data not found</p>}
-            {!error ? <CurrencyGraph currency={params.name} id={params.id}/> : null}
-            {currentUser && !walletLoading ? <CurrencyAccount currencyData={currencyData} currentUser={currentUser} setThisWallet={setThisWallet} thisWallet={thisWallet}/> : null }
-        </div>
+        <>
+            <div id="currency-page-head">
+                <h1>{params.name}</h1>
+                {loading ? <p>Loading...</p> : !error ? `Current Price: $${cryptoData.price} per coin` : <p>Error: Data not found</p>}
+            </div>
+            <div className="currency-page-container">
+                <div id='currency-page-left'>
+                    {!error ? <CurrencyGraph currency={params.name} id={params.id}/> : null}
+                </div>
+                <div id='currency-page-right'>
+                    {currentUser && !walletLoading ? <CurrencyAccount currencyData={currencyData} currentUser={currentUser} setThisWallet={setThisWallet} thisWallet={thisWallet}/> : null }
+                </div>
+            </div>
+        </>
     )
 }
 

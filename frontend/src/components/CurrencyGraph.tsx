@@ -46,13 +46,15 @@ function CurrencyGraph({currency, id}: CurrGraphProps) {
 
     return (
         <>
-            <InputLabel>Time Period</InputLabel>
-            <Select defaultValue={'24'} onChange={handleRangeChange}>
-                <MenuItem value='24'>Last 24 Hours</MenuItem>
-                <MenuItem value='30'>Last 30 Days</MenuItem>
-                <MenuItem value='6'>Last 6 Months</MenuItem>
-            </Select>
+            <div id='candlestick-period'>
+                <InputLabel>Time Period</InputLabel>
+                <Select defaultValue={'24'} onChange={handleRangeChange}>
+                    <MenuItem value='24'>Last 24 Hours</MenuItem>
+                    <MenuItem value='30'>Last 30 Days</MenuItem>
+                    <MenuItem value='6'>Last 6 Months</MenuItem>
+                </Select>
             {loading ? <p>Loading...</p>: !error ? <CandlestickChart candles={candleData}/> : <p>{error}</p>}
+            </div>
         </>
     )
 }

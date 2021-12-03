@@ -11,3 +11,76 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+.homePage {
+  text-align: center;
+  margin: 50px 0 0 100px;
+  color: rgb(70 117 206);
+}
+
+.currencyList {
+  text-align: center;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
+#currency-list-organizers {
+  text-align: center;
+  display: flex;
+  width: 500px;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+#login-button {
+  margin: 20px;
+}
+
+#signup-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 200px;
+  height: 150px;
+  margin: 70px auto 0 auto;
+}
+
+#login-signup {
+  text-align: center;
+  margin: 50px 0 0 100px;
+}
+
+#candlestick-period {
+  text-align: center;
+  width: 600px;
+  margin: 50px 0 0 50px;
+}
+
+#candlestick-chart {
+  margin: 20px 0 0 0;
+}
+
+.currency-page-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+#currency-page-head {
+  text-align: center;
+}
+
+#account {
+  text-align: center;
+  padding: 20px;
+}
+
+/* #currency-page-left {
+  
+} */
+#currency-page-right {
+  /* float: right; */
+  margin: auto;
+  min-width: 400px;
+}

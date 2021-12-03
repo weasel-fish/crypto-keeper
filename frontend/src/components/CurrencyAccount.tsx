@@ -30,17 +30,17 @@ function CurrencyAccount({currentUser, thisWallet, setThisWallet, currencyData}:
     }
 
     return (
-        <>
+        <div id="account">
             {thisWallet?.amount > 0 ? <p>You have {parseFloat(thisWallet.amount)} coins of {currencyData.name} at an average cost of ${parseFloat(thisWallet.avg_cost).toFixed(2)}/coin for {calculateChange(thisWallet.avg_cost, currencyData.price)} </p>:null}
             {!buySellWindow ? 
                 <>
-                    <Button onClick={()=>setBuySellWindow('buy')}>Buy</Button>
-                    <Button disabled={thisWallet?.amount <= 0} onClick={()=>setBuySellWindow('sell')}>Sell</Button>
+                    <Button size='large' onClick={()=>setBuySellWindow('buy')}>Buy</Button>
+                    <Button size='large' disabled={thisWallet?.amount <= 0} onClick={()=>setBuySellWindow('sell')}>Sell</Button>
                 </>
                 : 
-                    <Button onClick={()=>setBuySellWindow(null)}>Cancel</Button>}
+                    <Button size='large' onClick={()=>setBuySellWindow(null)}>Cancel</Button>}
             {buySellWindow ? buySellWindow == 'buy' ? <BuyWindow currencyData={currencyData} thisWallet={thisWallet} setThisWallet={setThisWallet} setBuySellWindow={setBuySellWindow} currentUser={currentUser}/>: <SellWindow currencyData={currencyData} thisWallet={thisWallet} setThisWallet={setThisWallet} setBuySellWindow={setBuySellWindow} currentUser={currentUser}/> : null}
-        </>
+        </div>
     )
 }
 

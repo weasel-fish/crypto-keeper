@@ -28,16 +28,14 @@ function LogIn({handleLogin}: any) {
     }
 
     return(
-        <div id='loginContainer'>
-            <h1>Select User</h1>
-            <form id='loginForm' onSubmit={handleSubmit}>
-                <FormControl size='small' variant='filled'>
+        <div id='login-container'>
+            <form id='login-form' onSubmit={handleSubmit}>
+                <FormControl size='medium' variant='filled'>
                     <InputLabel>User</InputLabel>
                     <Select label='User' onChange={handleChange}>
-                        {/* <MenuItem value='default'>---</MenuItem> */}
                         {userList.map(user => <MenuItem key={user.id} value={user.id}>{user.name}</MenuItem>)}
                     </Select>
-                    <Button type='submit' disabled={!selected}>Log In</Button>
+                    <Button id='login-button' type='submit' disabled={!selected}>Log In</Button>
                 </FormControl>
             </form>
         </div>

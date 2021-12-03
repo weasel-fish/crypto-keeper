@@ -63,18 +63,20 @@ function CurrencyList() {
     const filteredCurrencies = sortedCurrencies.filter((curr :any) => curr.name.toLowerCase().includes(searchText.toLowerCase()) || curr.id.toLowerCase().includes(searchText.toLowerCase()))
 
     return (
-        <div className="currencyList">  
-            <Input placeholder="Search" value={searchText} onChange={handleSearch}/>
-            <Button onClick={() => setSortAlpha(!sortAlpha)}>{!sortAlpha ? 'Sort By Alphabetical Order':'Sort By Popularity'}</Button>
+        <div className="currencyList">
+            <div id='currency-list-organizers'>
+                <Input placeholder="Search" value={searchText} onChange={handleSearch}/>
+                <Button onClick={() => setSortAlpha(!sortAlpha)}>{!sortAlpha ? 'Sort By Alphabetical Order':'Sort By Popularity'}</Button>
+            </div>
             {loading ? <p>Loading...</p> : !error ? 
             <List
                 sx={{
                     width: '100%',
-                    maxWidth: 360,
+                    maxWidth: 500,
                     bgcolor: 'background.paper',
                     position: 'relative',
                     overflow: 'auto',
-                    maxHeight: 300,
+                    maxHeight: 340,
                     '& ul': { padding: 0},
                 }}
             >

@@ -6,11 +6,6 @@ function CandlestickChart({candles}: any) {
     const [candleData, setCandleData] = useState(candles)
 
     const options = {
-        xaxis: {
-            // labels: {
-            //     show: false
-            // }
-        }
     }
 
     let seriesData = [{
@@ -18,7 +13,7 @@ function CandlestickChart({candles}: any) {
     }]
 
     return (
-        <>
+        <div id='candlestick-chart'>
             <Chart 
                 options={options}
                 series={seriesData}
@@ -26,7 +21,7 @@ function CandlestickChart({candles}: any) {
                 height='500'
                 width='600'
             />
-        </>
+        </div>
     )
 }
 
