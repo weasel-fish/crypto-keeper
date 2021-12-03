@@ -101,7 +101,6 @@ const getUserWallet = (req:Request, res:Response) => {
   const currency_id = req.params.currency_id
 
   pool.query('SELECT * FROM user_wallets WHERE user_id = $1 AND currency_id = $2', [user_id, currency_id], (error: Error, result: any) => {
-    console.log(error)
     // if (error) {
     //     throw error
     // }

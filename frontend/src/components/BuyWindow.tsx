@@ -14,7 +14,13 @@ function BuyWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, c
         e.preventDefault()
         console.log('click')
         if(coinCount > 0 && thisWallet) {
-            let oldAvg = parseFloat(thisWallet.avg_cost)
+            console.log(thisWallet)
+            let oldAvg: number
+            if(!thisWallet.avg_cost){
+                oldAvg = 0
+            } else {
+                oldAvg = parseFloat(thisWallet.avg_cost)
+            }
             let oldAmount = parseFloat(thisWallet.amount)
             let newAvg = ((oldAmount * oldAvg) + (coinCount * currencyData.price)) / (oldAmount + coinCount)
             let newAmount = coinCount + oldAmount
@@ -62,7 +68,7 @@ function BuyWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, c
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <label>Buy <Input type='number' inputProps={{min: 0}} value={coinCount} onChange={handleChange}></Input> coins for ${coinCount ? coinCount * currencyData.price : '0'}</label>
+                <label>Buy <Input type='number' inputProps={{min: 0, step: 'any'}} value={coinCount} onChange={handleChange}></Input> coins for ${coinCount ? coinCount * currencyData.price : '0'}</label>
                 <Button type='submit'>Submit Buy</Button>
             </form>
         </>

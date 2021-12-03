@@ -44,7 +44,7 @@ function SellWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, 
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <label>Sell <Input type='number' inputProps={{max: parseFloat(thisWallet.amount), min: 0}} value={coinCount} onChange={handleChange}></Input> coins for ${coinCount ? coinCount * currencyData.price: '0'}</label>
+                <label>Sell <Input type='number' inputProps={{max: parseFloat(thisWallet.amount), min: 0, step: 'any'}} value={coinCount} onChange={handleChange}></Input> coins for ${coinCount ? coinCount * currencyData.price: '0'}</label>
                 <Button type='submit'>Confirm Sale</Button>
             </form>
         </>

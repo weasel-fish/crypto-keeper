@@ -61,11 +61,6 @@ function CurrencyPage({currentUser, wallets}: CurrencyPageProps) {
         fetchTicker()
     }, [])
 
-    console.log(currentUser)
-    console.log(wallets)
-    console.log('THIS WALLET:')
-    console.log(thisWallet)
-
     let currencyData = {
         price: cryptoData.price,
         name: params.name,
@@ -76,8 +71,8 @@ function CurrencyPage({currentUser, wallets}: CurrencyPageProps) {
         <div className="currencyPage">
             <h1>{params.name}</h1>
             {loading ? <p>Loading...</p> : !error ? `Current Price: $${cryptoData.price} per coin` : <p>Error: Data not found</p>}
-            {currentUser && !walletLoading ? <CurrencyAccount currencyData={currencyData} currentUser={currentUser} setThisWallet={setThisWallet} thisWallet={thisWallet}/> : null }
             {!error ? <CurrencyGraph currency={params.name} id={params.id}/> : null}
+            {currentUser && !walletLoading ? <CurrencyAccount currencyData={currencyData} currentUser={currentUser} setThisWallet={setThisWallet} thisWallet={thisWallet}/> : null }
         </div>
     )
 }

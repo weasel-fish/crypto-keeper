@@ -31,11 +31,11 @@ function CurrencyAccount({currentUser, thisWallet, setThisWallet, currencyData}:
 
     return (
         <>
-            {thisWallet ? <p>You have {parseFloat(thisWallet.amount)} coins of {currencyData.name} at an average cost of ${parseFloat(thisWallet.avg_cost).toFixed(2)}/coin for {calculateChange(thisWallet.avg_cost, currencyData.price)} </p>:null}
+            {thisWallet?.amount > 0 ? <p>You have {parseFloat(thisWallet.amount)} coins of {currencyData.name} at an average cost of ${parseFloat(thisWallet.avg_cost).toFixed(2)}/coin for {calculateChange(thisWallet.avg_cost, currencyData.price)} </p>:null}
             {!buySellWindow ? 
                 <>
                     <Button onClick={()=>setBuySellWindow('buy')}>Buy</Button>
-                    <Button disabled={!thisWallet} onClick={()=>setBuySellWindow('sell')}>Sell</Button>
+                    <Button disabled={thisWallet?.amount <= 0} onClick={()=>setBuySellWindow('sell')}>Sell</Button>
                 </>
                 : 
                     <Button onClick={()=>setBuySellWindow(null)}>Cancel</Button>}
