@@ -1,6 +1,13 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import {useNavigate} from 'react-router-dom'
 import { COIN_API_ROOT } from "../constants"
+import Button from '@mui/material/Button'
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import ListItemButton from '@mui/material/ListItemButton'
+import ListSubheader from '@mui/material/ListSubheader'
+import Input from '@mui/material/Input'
 
 function CurrencyList() {
 
@@ -17,7 +24,7 @@ function CurrencyList() {
 
             if(resp.ok) {
                 resp.json().then(data => {
-                    setCurrencies(sortCurrencies(data, sortAlpha))
+                    setCurrencies(sortCurrencies(excludeMoney(data), sortAlpha))
                     setLoading(false)
                     })
             } else {
@@ -29,6 +36,12 @@ function CurrencyList() {
         }
         fetchCurrencyList()
     }, [])
+
+    function excludeMoney(data:any) {
+        let noMoney = data.filter((curr:any) => curr.id != 'USD' && curr.id != 'EUR' && curr.id != 'GBP')
+        console.log(noMoney)
+        return noMoney
+    }
 
     function handleClick(name: string, id: string) {
         navigate(`/currency/${name}(${id})`)
@@ -50,11 +63,30 @@ function CurrencyList() {
     const filteredCurrencies = sortedCurrencies.filter((curr :any) => curr.name.toLowerCase().includes(searchText.toLowerCase()) || curr.id.toLowerCase().includes(searchText.toLowerCase()))
 
     return (
-        <>  
-            <label>Search:<input type='text' value={searchText} onChange={handleSearch}></input></label>
-            <label>Sort by:</label><button onClick={() => setSortAlpha(!sortAlpha)}>{!sortAlpha ? 'Alphabetical Order':'Popularity'}</button>
-            {loading ? <p>Loading...</p> : !error ? filteredCurrencies.map((curr:any) => <p onClick={() => handleClick(curr.name, curr.id)}>{curr.name + ' | ' + curr.id}</p>) : <p>{error}</p>}
-        </>
+        <div className="currencyList">  
+            <Input placeholder="Search" value={searchText} onChange={handleSearch}/>
+            <Button onClick={() => setSortAlpha(!sortAlpha)}>{!sortAlpha ? 'Sort By Alphabetical Order':'Sort By Popularity'}</Button>
+            {loading ? <p>Loading...</p> : !error ? 
+            <List
+                sx={{
+                    width: '100%',
+                    maxWidth: 360,
+                    bgcolor: 'background.paper',
+                    position: 'relative',
+                    overflow: 'auto',
+                    maxHeight: 300,
+                    '& ul': { padding: 0},
+                }}
+            >
+                {/* <ListSubheader>Currency | Symbol</ListSubheader> */}
+                <ul>
+                    {filteredCurrencies.map((curr:any) =>     
+                        <ListItemButton onClick={() => handleClick(curr.name, curr.id)} key={curr.id}>{curr.name + ' | ' + curr.id}</ListItemButton>
+                    )}
+                </ul>
+            </List>
+            : <p>{error}</p>}
+        </div>
     )
 }
 

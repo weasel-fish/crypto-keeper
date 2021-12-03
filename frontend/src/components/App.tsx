@@ -43,7 +43,7 @@ function App() {
     <> 
       <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser} setCurrentUserWallets={setCurrentUserWallets}/>
       <Routes>
-        <Route path='/' element={<Home />}/>
+        <Route path='/' element={<Home currentUser={currentUser}/>}/>
         <Route path='/login' element={<LogInSignUp handleLogin={handleLogin}/>} />
         <Route path='/currency/:name(:id)' element={<CurrencyPage currentUser={currentUser} wallets={currentUserWallets}/>}/>
       </Routes>

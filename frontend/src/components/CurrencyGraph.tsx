@@ -1,5 +1,9 @@
 import {ChangeEvent, useEffect, useState } from 'react'
 import CandlestickChart from './CandlestickChart'
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent} from '@mui/material/Select'
+import InputLabel from '@mui/material/InputLabel'
 
 type CurrGraphProps = {
     currency: string | undefined;
@@ -36,17 +40,18 @@ function CurrencyGraph({currency, id}: CurrGraphProps) {
         fetchCandles()
     }, [candleParams])
 
-    function handleRangeChange(e: ChangeEvent<any>) {
+    function handleRangeChange(e: SelectChangeEvent) {
         setCandleParams(makeDateParams(e.target.value))
     }
 
     return (
         <>
-            <select onChange={handleRangeChange}>
-                <option selected value='24'>Last 24 Hours</option>
-                <option value='30'>Last 30 Days</option>
-                <option value='6'>Last 6 Months</option>
-            </select>
+            <InputLabel>Time Period</InputLabel>
+            <Select defaultValue={'24'} onChange={handleRangeChange}>
+                <MenuItem value='24'>Last 24 Hours</MenuItem>
+                <MenuItem value='30'>Last 30 Days</MenuItem>
+                <MenuItem value='6'>Last 6 Months</MenuItem>
+            </Select>
             {loading ? <p>Loading...</p>: !error ? <CandlestickChart candles={candleData}/> : <p>{error}</p>}
         </>
     )
@@ -80,11 +85,11 @@ function makeDateParams(range: string) {
     switch(range) {
         case '24':
             daysPrior = 1
-            granularity = 3600
+            granularity = 900
             break
         case '30':
             daysPrior = 30
-            granularity = 86400
+            granularity = 21600
             break
         case '6':
             daysPrior = 180

@@ -2,6 +2,7 @@ import {UserObj} from './App'
 import {useState} from 'react'
 import BuyWindow from './BuyWindow'
 import SellWindow from './SellWindow'
+import Button from '@mui/material/Button'
 
 type CurrencyAccountProps = {
     currentUser: UserObj
@@ -33,11 +34,11 @@ function CurrencyAccount({currentUser, thisWallet, setThisWallet, currencyData}:
             {thisWallet ? <p>You have {parseFloat(thisWallet.amount)} coins of {currencyData.name} at an average cost of ${parseFloat(thisWallet.avg_cost).toFixed(2)}/coin for {calculateChange(thisWallet.avg_cost, currencyData.price)} </p>:null}
             {!buySellWindow ? 
                 <>
-                    <button onClick={()=>setBuySellWindow('buy')}>Buy</button>
-                    <button disabled={!thisWallet} onClick={()=>setBuySellWindow('sell')}>Sell</button>
+                    <Button onClick={()=>setBuySellWindow('buy')}>Buy</Button>
+                    <Button disabled={!thisWallet} onClick={()=>setBuySellWindow('sell')}>Sell</Button>
                 </>
                 : 
-                    <button onClick={()=>setBuySellWindow(null)}>Cancel</button>}
+                    <Button onClick={()=>setBuySellWindow(null)}>Cancel</Button>}
             {buySellWindow ? buySellWindow == 'buy' ? <BuyWindow currencyData={currencyData} thisWallet={thisWallet} setThisWallet={setThisWallet} setBuySellWindow={setBuySellWindow} currentUser={currentUser}/>: <SellWindow currencyData={currencyData} thisWallet={thisWallet} setThisWallet={setThisWallet} setBuySellWindow={setBuySellWindow} currentUser={currentUser}/> : null}
         </>
     )

@@ -1,5 +1,7 @@
 import {ChangeEvent, SyntheticEvent, useState} from 'react'
 import {API_ROOT} from '../constants'
+import Input from '@mui/material/Input'
+import Button from '@mui/material/Button'
 
 function SellWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, currentUser}: any) {
     const [coinCount, setCoinCount] = useState(0)
@@ -42,8 +44,8 @@ function SellWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, 
     return (
         <>
             <form onSubmit={handleSubmit}>
-                <label>Sell <input type='number' max={parseFloat(thisWallet.amount)} value={coinCount} onChange={handleChange}></input> coins for ${coinCount * currencyData.price}</label>
-                <input type='submit' value='Confirm Sale'/>
+                <label>Sell <Input type='number' inputProps={{max: parseFloat(thisWallet.amount), min: 0}} value={coinCount} onChange={handleChange}></Input> coins for ${coinCount ? coinCount * currencyData.price: '0'}</label>
+                <Button type='submit'>Confirm Sale</Button>
             </form>
         </>
     )

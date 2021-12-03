@@ -36,3 +36,24 @@
     transform: rotate(360deg);
   }
 }
+
+.currencyPage {
+  text-align: center;
+}
+
+.homePage {
+  text-align: center;
+}
+
+.currencyList {
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
+#loginContainer {
+  width: 40%;
+}
+/* #loginForm {
+  display: flex;
+  width: 50%;
+} */

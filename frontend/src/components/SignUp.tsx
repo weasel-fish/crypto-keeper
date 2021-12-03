@@ -1,4 +1,6 @@
 import { SyntheticEvent, ChangeEvent, SetStateAction, useState } from "react"
+import Input from '@mui/material/Input'
+import Button from '@mui/material/Button'
 
 function SignUp({handleLogin}: any) { //need to figure out what to replace 'any' with
 
@@ -31,10 +33,11 @@ function SignUp({handleLogin}: any) { //need to figure out what to replace 'any'
     
     return(
         <>
+        {/* <Input placeholder="Search" value={searchText} onChange={handleSearch}/> */}
             <form onSubmit={handleSubmit}>
-                <label>Name: <input type="text" name="name" onChange={handleChange} value={formData.name}></input></label>
-                <label>Email: <input type="text" name="email" onChange={handleChange} value={formData.email}></input></label>
-                <input type='submit' value='Create Account'/>
+                <Input placeholder="Name" type="text" name="name" onChange={handleChange} value={formData.name}></Input>
+                <Input placeholder="Email" type="text" name="email" onChange={handleChange} value={formData.email}></Input>
+                <Button type='submit'>Create Account</Button>
             </form>
         </>
     )
