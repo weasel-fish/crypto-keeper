@@ -8,6 +8,7 @@ function CurrencyList() {
     const [searchText, setSearchText] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string|null>(null)
+    const [sortAlpha, setSortAlpha] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -16,7 +17,7 @@ function CurrencyList() {
 
             if(resp.ok) {
                 resp.json().then(data => {
-                    setCurrencies(data)
+                    setCurrencies(sortCurrencies(data, sortAlpha))
                     setLoading(false)
                     })
             } else {
@@ -37,12 +38,22 @@ function CurrencyList() {
         setSearchText(e.target.value)
     }
 
-    const filteredCurrencies = currencies.filter(curr => curr.name.toLowerCase().includes(searchText.toLowerCase()) || curr.id.toLowerCase().includes(searchText.toLowerCase()))
+    function sortCurrencies(data:any[], type:boolean){
+        if(type) {
+            return data.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
+        } else {
+            return data.sort((a, b) => a.details.sort_order < b.details.sort_order ? -1 : a.details.sort_order > b.details.sort_order ? 1 : 0)
+        }
+    }
+
+    const sortedCurrencies:any = sortCurrencies(currencies, sortAlpha)
+    const filteredCurrencies = sortedCurrencies.filter((curr :any) => curr.name.toLowerCase().includes(searchText.toLowerCase()) || curr.id.toLowerCase().includes(searchText.toLowerCase()))
 
     return (
         <>  
             <label>Search:<input type='text' value={searchText} onChange={handleSearch}></input></label>
-            {loading ? <p>Loading...</p> : !error ? filteredCurrencies.map(curr => <p onClick={() => handleClick(curr.name, curr.id)}>{curr.name + ' | ' + curr.id}</p>) : <p>{error}</p>}
+            <label>Sort by:</label><button onClick={() => setSortAlpha(!sortAlpha)}>{!sortAlpha ? 'Alphabetical Order':'Popularity'}</button>
+            {loading ? <p>Loading...</p> : !error ? filteredCurrencies.map((curr:any) => <p onClick={() => handleClick(curr.name, curr.id)}>{curr.name + ' | ' + curr.id}</p>) : <p>{error}</p>}
         </>
     )
 }
