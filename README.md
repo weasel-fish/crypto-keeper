@@ -4,8 +4,7 @@ SUMMARY
 
 Crypto Keeper is a simply cryptocurrency investment platform that presents price history data for over one hundred cryptocurrencies. It also simulates the ability to buy and sell cryptocurrencies and track potential gains and losses due to price fluctuation.
 
-For the frontend, I used the React library using TypeScript. I used several Material-UI components to style the app, as well as ApexCharts to display historical price fluctuation.
-
+For the frontend, I used the React library using TypeScript. I used several Material-UI components to style the app, as well as ApexCharts to display historical price fluctuation. I used the Coinbase Pro API to gather all cryptocurrency data used in this app.
 
 For the backend server I used Node with the Express framework, also using TypeScript. The server connects with a PostgreSQL database which stores user and user' cryptocurrency ownership data.
 
@@ -50,6 +49,34 @@ I have included routes to create a new user, get a list of users, get a single u
 
 OVERVIEW OF THE FRONTEND
 
+Components:
+* App - The top level component. It stores the current user in state (if someone is logged in) and passes it down to child components NavBar, Home, and CurrencyPage, the rendering of which will change depending on whether a user is logged in or not. This component includes the handleLogin function, which sets the current user and navigates to the home page. The NavBar is always rendered, and the Home, LogInSignUp, and CurrencyPage components are conditionally rendered and are tied to their respective Routes (a function of react-router-dom).
+
+* NavBar - This component is always fixed to the top of the page and displays the app title on the left (doubling as a NavLink (another react-router-dom feature) that transports the user to the Home page). On the right side is either a NavLink leading to the LogInSignUp component page or a Log Out button that logs the user out, depending on whether a user is logged out or not.
+
+* LogInSignUp - This component has a button that toggles which of the SignUp or the LogIn child components are rendered.
+
+* LogIn - Upon render, this component fetches a list of users from the backend, sets the userList state to an array of the users (each user represented by an object containing their id, name, and email) and populates a dropdown menu with their names. Upon selection of a user name, a Log In button becomes enabled, the clicking of which will trigger the handleLogin function (passed down from the App component), passing it the selected user object.
+
+* SignUp - This component contains a form with controlled inputs for a user's name and email that are tracked in state as the object formData. Upon submitting the form, a fetch post request is sent to the backend, with the body in the form of { name: ' ', email: ' '}. If successful, the created user object will be sent back in the response and the handleLogin function (again, passed down from App) will set the new user object as the current user.
+
+* Home - This component displays a welcome message that includes the logged in user's name if anyone is logged in. It also renders the CurrencyList component.
+
+* CurrencyList - This component, on initial render, fetches a list of currencies from the Coinbase API via the url 'https://api.exchange.coinbase.com/currencies'. This returns an array of objects, each representing a currency and containing a host of information. Upon a successful fetch, the array is filtered to remove a few fiat currencies (USD, GBP, EUR), sorted by it's 'sort_order' value (which I have assumed is popularity or activity, but I could be wrong), and then stored in state. That state is then passed through a filter which matches the currencies to any value entered into the search field (a controlled input, the value of which is held in the searchText state). This filtered list (which when the search field is empty contains all currencies) is then used to populate a scrollable list that displays each currency's name and symbol/id. A button toggles the sortAlpha state which switches the list between alphabetical and popularity ordering. Each list item is clickable, and when clicked will navigate the user to the currency's individual page (passing along the currency's name and id in the route parameters).
+
+* CurrencyPage - This component, on initial render, performs either one or two fetches. First, it fetches from the Coinbase API the currency's ticker via the url 'https://api.exchange.coinbase.com/products/*Currency ID/symbol here*-USD/ticker'. This returns an object containing several pieces of information, the only one of which I use is the current price. The cryptoPrice state is set to that value upon a successful response. If a user is logged in, a second fetch to my own API is performed; this sends in the request parameters the user's id and the currency's id, which are used to find a matching user wallet in the database. If there is such a wallet (where the user owns some of the currency or has in the past), thisWallet state is set to the returned object (in the form of {id: , user_id: , currency_id: , amount: , avg_cost: }). If there is no wallet, thisWallet remains null. thisWallet is passed down to and used by the CurrencyAccount component. This component then renders the CurrencyGraph component and the CurrencyAccount component, the latter only if a user is logged in.
+
+* CurrencyGraph - This component primarily handles the data gathering for its child component, CandlestickChart. Upon initial rendering, the component attempts to fetch from the Coinbase API candle data for the given currency over a specific span of time and at a particular granularity. These specifications are injected into the fetch url (https://api.exchange.coinbase.com/products/$*Currency ID/symbol here*-USD/candles?granularity=*chosen granularity*&start=*start date and time*&end=*end date and time*). The default specifications are set to the period covering the 24 hours leading up to the present moment, with a granularity of 900 (which means a point of data for every 15 minutes). The makeDateParams function does the work of capturing the present moment as the end point, creating a starting point the appropriate length of time before the end point, and setting the granularity. All of these specifications are stored in an object which is used to inject the correct parameters into the fetch url. makeDateParams will produce different specifications depending on the argument passed into it. This argument is set by the drop down menu, with options for the last 24 hours, 30 days, and 6 months, each with a different granularity. When the drop down menu is changed, a new fetch is performed to collect the appropriate range of data. The Coinbase API returns an array of arrays, each of which represents one candle (or point of data). These candles are in the form of [timestamp, low, high, open, close]. The array of arrays is then passed into the convertCandleData function, which transforms each candle to a different form: {x: *reformatted timestamp*, y: [open, high, low, close] }. An array of the reformatted candles is passed down to the child component Candlestick Chart.
+
+* CandlestickChart - This component takes in the reformatted candle data and passes it to an ApexCharts component that presents the dataset in a readable and interactable manner.
+
+* CurrencyAccount - This is a sibling component to CurrencyGraph and only renders when a user is logged in. It takes in the user's information, their wallet for the given currency if one exists, and the currency's data (id, name, and price). If the user owns any of the currency, it displays how many coins are owned, the average cost paid by the user, and the percentage of lost or gained value of their holdings relative to the current currency price. Two buttons appear below this informational display: a Buy button and a Sell button. The Sell button is only enabled if the user owns some amount of the currency, and the Buy button is always enabled. Upon clicking either button, the BuyWindow or SellWindow are rendered accordingly, along with a Cancel button that closes the newly opened component.
+
+* BuyWindow - 
+
+* SellWindow -
+
+* ErrorDisplay - This component is rendered and displays error details in the event of a bad fetch response within any components where that may occur.
 
 
 USER FLOW AND VIEWS
@@ -66,7 +93,7 @@ If they do not yet have an account, the user may click the Sign Up button, which
 
 <img src="./readme_images/signup-page.png" alt="signup page" width='500px' title="Signup Page" />
 
-When the user clicks either the Create Account or Log In button, they are logged in as the current (or recently created) user and redirected to the home page, this time with a personalized welcome message.
+When the user clicks either the Create Account or Log In button, they are logged in as the current (or recently created) user and redirected to the home page, this time with a personalized welcome message. Where the 'LOG IN / SIGN UP' button was previously is now a 'LOG OUT' button, which will log the user out when clicked.
 
 <img src="./readme_images/welcome-user.png" alt="welcome page" width='500px' title="Welcome Page" />
 
