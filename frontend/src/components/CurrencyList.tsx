@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react"
 import {useNavigate} from 'react-router-dom'
 import { COIN_API_ROOT } from "../constants"
+import ErrorDisplay from './ErrorDisplay'
 import Button from '@mui/material/Button'
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -9,13 +10,18 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListSubheader from '@mui/material/ListSubheader'
 import Input from '@mui/material/Input'
 
+type CurrencyObj = {
+    [key: string]: any
+}
+
 function CurrencyList() {
 
-    const [currencies, setCurrencies] = useState<any[]>([])
+    const [currencies, setCurrencies] = useState<CurrencyObj[] | []>([])
     const [searchText, setSearchText] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string|null>(null)
     const [sortAlpha, setSortAlpha] = useState(false)
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -29,7 +35,7 @@ function CurrencyList() {
                     })
             } else {
                 resp.json().then(data => {
-                    setError(`Error: ${data.message}`)
+                    setError(data.message)
                     setLoading(false)
                     })
             }
@@ -37,8 +43,8 @@ function CurrencyList() {
         fetchCurrencyList()
     }, [])
 
-    function excludeMoney(data:any) {
-        let noMoney = data.filter((curr:any) => curr.id != 'USD' && curr.id != 'EUR' && curr.id != 'GBP')
+    function excludeMoney(data:CurrencyObj[]): CurrencyObj[] {
+        let noMoney: CurrencyObj[] = data.filter((curr:CurrencyObj) => curr.id != 'USD' && curr.id != 'EUR' && curr.id != 'GBP')
         console.log(noMoney)
         return noMoney
     }
@@ -47,11 +53,11 @@ function CurrencyList() {
         navigate(`/currency/${name}(${id})`)
     }
 
-    function handleSearch(e: ChangeEvent<any>){
+    function handleSearch(e: ChangeEvent<HTMLInputElement>){
         setSearchText(e.target.value)
     }
 
-    function sortCurrencies(data:any[], type:boolean){
+    function sortCurrencies(data:CurrencyObj[], type:boolean){
         if(type) {
             return data.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
         } else {
@@ -59,8 +65,8 @@ function CurrencyList() {
         }
     }
 
-    const sortedCurrencies:any = sortCurrencies(currencies, sortAlpha)
-    const filteredCurrencies = sortedCurrencies.filter((curr :any) => curr.name.toLowerCase().includes(searchText.toLowerCase()) || curr.id.toLowerCase().includes(searchText.toLowerCase()))
+    const sortedCurrencies: CurrencyObj[] = sortCurrencies(currencies, sortAlpha)
+    const filteredCurrencies = sortedCurrencies.filter((curr:CurrencyObj) => curr.name.toLowerCase().includes(searchText.toLowerCase()) || curr.id.toLowerCase().includes(searchText.toLowerCase()))
 
     return (
         <div className="currencyList">
@@ -78,16 +84,14 @@ function CurrencyList() {
                     overflow: 'auto',
                     maxHeight: 340,
                     '& ul': { padding: 0},
-                }}
-            >
-                {/* <ListSubheader>Currency | Symbol</ListSubheader> */}
+                }}>
                 <ul>
-                    {filteredCurrencies.map((curr:any) =>     
+                    {filteredCurrencies.map((curr: CurrencyObj) =>     
                         <ListItemButton onClick={() => handleClick(curr.name, curr.id)} key={curr.id}>{curr.name + ' | ' + curr.id}</ListItemButton>
                     )}
                 </ul>
             </List>
-            : <p>{error}</p>}
+            : <ErrorDisplay error={error}/>}
         </div>
     )
 }
