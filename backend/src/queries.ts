@@ -2,10 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'kyleermentrout',
-  host: 'localhost',
   database: 'crypto_keeper_dev',
-//   password: 'password',
   port: 5432
 })
 
@@ -132,7 +129,6 @@ const createUserWallet = (req:Request, res:Response) => {
         }
       })
     }
-    
   })
 }
 

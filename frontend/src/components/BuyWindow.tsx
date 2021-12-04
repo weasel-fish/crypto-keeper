@@ -9,10 +9,10 @@ function BuyWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, c
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         setCoinCount(parseFloat(e.target.value))
     }
-    console.log(currencyData)
+
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault()
-        console.log('click')
+   
         if(coinCount > 0 && thisWallet) {
             console.log(thisWallet)
             let oldAvg: number
@@ -62,8 +62,6 @@ function BuyWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, c
             console.log('Cant buy')
         }
     }
-
-    console.log(thisWallet)
 
     return (
         <>

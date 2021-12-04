@@ -12,7 +12,7 @@ function SellWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, 
     
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault()
-        console.log('click')
+        
         if(coinCount > 0) {
             let oldAvg = parseFloat(thisWallet.avg_cost)
             let oldAmount = parseFloat(thisWallet.amount)
