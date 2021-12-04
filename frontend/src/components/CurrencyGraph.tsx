@@ -53,7 +53,7 @@ function CurrencyGraph({currency, id}: CurrGraphProps) {
                     <MenuItem value='30'>Last 30 Days</MenuItem>
                     <MenuItem value='6'>Last 6 Months</MenuItem>
                 </Select>
-            {loading ? <p>Loading...</p>: !error ? <CandlestickChart candles={candleData}/> : <p>{error}</p>}
+                {loading ? <p>Loading...</p>: !error ? <CandlestickChart candles={candleData}/> : <p>{error}</p>}
             </div>
         </>
     )
@@ -107,7 +107,6 @@ function makeDateParams(range: string) {
 
     startDateTime.setDate(endDateTime.getDate() - daysPrior)
 
-    // I think some of this is redundant, can clean it up!
     let endDate = endDateTime.toISOString().split('T')[0]
     let startDate = startDateTime.toISOString().split('T')[0]
     let currentTimeArray = startDateTime.toISOString().split('T')[1].split('.')[0].split(':')

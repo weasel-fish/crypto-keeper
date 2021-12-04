@@ -1,9 +1,14 @@
-import { SetStateAction, useState } from 'react'
+import { useState } from 'react'
+import { UserObj } from './App'
 import Button from '@mui/material/Button'
 import LogIn from './LogIn'
 import SignUp from './SignUp'
 
-function LogInSignUp({handleLogin}: any) {
+type LogInSignUpProps = {
+    handleLogin: (user: UserObj) => void
+}
+
+function LogInSignUp({handleLogin}: LogInSignUpProps) {
 
     const [newUser, setNewUser] = useState(false)
 

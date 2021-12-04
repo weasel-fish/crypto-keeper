@@ -7,10 +7,9 @@ import {UserObj} from './App'
 
 type CurrencyPageProps = {
     currentUser:  UserObj | null
-    wallets: any | null
 }
 
-function CurrencyPage({currentUser, wallets}: CurrencyPageProps) {
+function CurrencyPage({currentUser}: CurrencyPageProps) {
     const params = useParams()
     const [cryptoData, setCryptoData] = useState<any>({})
     const [loading, setLoading] = useState(true)
@@ -55,7 +54,7 @@ function CurrencyPage({currentUser, wallets}: CurrencyPageProps) {
 
         if(currentUser){
             console.log('fetching wallet')
-        fetchWallet(currentUser.id)
+            fetchWallet(currentUser.id)
         }
 
         fetchTicker()
@@ -73,13 +72,9 @@ function CurrencyPage({currentUser, wallets}: CurrencyPageProps) {
                 <h1>{params.name}</h1>
                 {loading ? <p>Loading...</p> : !error ? `Current Price: $${cryptoData.price} per coin` : <p>Error: Data not found</p>}
             </div>
-            <div className="currency-page-container">
-                <div id='currency-page-left'>
-                    {!error ? <CurrencyGraph currency={params.name} id={params.id}/> : null}
-                </div>
-                <div id='currency-page-right'>
-                    {currentUser && !walletLoading ? <CurrencyAccount currencyData={currencyData} currentUser={currentUser} setThisWallet={setThisWallet} thisWallet={thisWallet}/> : null }
-                </div>
+            <div id={"currency-page-container"}>
+                {!error ? <CurrencyGraph currency={params.name} id={params.id}/> : null}
+                {currentUser && !walletLoading ? <div id='currency-page-right'><CurrencyAccount currencyData={currencyData} currentUser={currentUser} setThisWallet={setThisWallet} thisWallet={thisWallet}/> </div>: null }
             </div>
         </>
     )

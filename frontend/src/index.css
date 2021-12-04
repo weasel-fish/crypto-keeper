@@ -62,7 +62,7 @@ code {
   margin: 20px 0 0 0;
 }
 
-.currency-page-container {
+#currency-page-container {
   display: flex;
   justify-content: space-around;
 }
@@ -76,9 +76,10 @@ code {
   padding: 20px;
 }
 
-/* #currency-page-left {
-  
-} */
+.currency-page-no-user {
+  margin: 0 auto;
+}
+
 #currency-page-right {
   /* float: right; */
   margin: auto;

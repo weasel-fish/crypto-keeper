@@ -1,10 +1,17 @@
 import { SyntheticEvent, ChangeEvent, SetStateAction, useState } from "react"
+import { UserObj } from './App'
 import Input from '@mui/material/Input'
 import Button from '@mui/material/Button'
+import ErrorDisplay from "./ErrorDisplay"
 
-function SignUp({handleLogin}: any) { //need to figure out what to replace 'any' with
+type SignUpProps = {
+    handleLogin: (user: UserObj) => void
+}
+
+function SignUp({handleLogin}: SignUpProps) {
 
     const [formData, setFormData] = useState({name: '', email: ''})
+    const [error, setError] = useState(null)
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
 
@@ -14,10 +21,11 @@ function SignUp({handleLogin}: any) { //need to figure out what to replace 'any'
         })
     }
 
-    function handleSubmit(e: SyntheticEvent) {
+    async function handleSubmit(e: SyntheticEvent) {
         e.preventDefault()
+        setError(null)
 
-        fetch('http://localhost:3000/users', { 
+        let resp = await fetch('http://localhost:3000/users', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -27,16 +35,22 @@ function SignUp({handleLogin}: any) { //need to figure out what to replace 'any'
                 email: formData.email
             })
         })
-        .then(resp => resp.json())
-        .then((newUser) => {
-            console.log(newUser)
-            // handleLogin(newUser)
-    })
+
+        if(resp.ok) {
+            resp.json().then((newUser: UserObj) => {
+                handleLogin(newUser)
+            })
+        } else {
+            resp.json().then(error => {
+                setError(error.detail)
+                setFormData({name: '', email: ''})
+            })
+        }
     }
     
     return(
         <>
-        {/* <Input placeholder="Search" value={searchText} onChange={handleSearch}/> */}
+            {error ? <ErrorDisplay error={error}/> : null}
             <form id='signup-form' onSubmit={handleSubmit}>
                 <Input placeholder="Name" type="text" name="name" onChange={handleChange} value={formData.name}></Input>
                 <Input placeholder="Email" type="text" name="email" onChange={handleChange} value={formData.email}></Input>
