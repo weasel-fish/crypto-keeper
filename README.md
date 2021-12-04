@@ -2,11 +2,13 @@ CRYPTO KEEPER README
 
 SUMMARY
 
-Crypto Keeper is a simply cryptocurrency investment platform that presents price history data for over one hundred cryptocurrencies. It also simulates the ability to buy and sell cryptocurrencies and track potential gains and losses due to price fluctuation.
+Crypto Keeper is a simple cryptocurrency investment platform that presents price history data for over one hundred cryptocurrencies. It also simulates the ability to buy and sell cryptocurrencies and track potential gains and losses due to price fluctuation.
 
 For the frontend, I used the React library using TypeScript. I used several Material-UI components to style the app, as well as ApexCharts to display historical price fluctuation. I used the Coinbase Pro API to gather all cryptocurrency data used in this app.
 
 For the backend server I used Node with the Express framework, also using TypeScript. The server connects with a PostgreSQL database which stores user and user' cryptocurrency ownership data.
+
+The overall architural design for this app is the Model View Controller pattern. Much of these three responsibilities handled among the frontend React components, although the backend server does control the service of data from the database.
 
 <!-- You can see this app live at:  -->
 
@@ -72,9 +74,9 @@ Components:
 
 * CurrencyAccount - This is a sibling component to CurrencyGraph and only renders when a user is logged in. It takes in the user's information, their wallet for the given currency if one exists, and the currency's data (id, name, and price). If the user owns any of the currency, it displays how many coins are owned, the average cost paid by the user, and the percentage of lost or gained value of their holdings relative to the current currency price. Two buttons appear below this informational display: a Buy button and a Sell button. The Sell button is only enabled if the user owns some amount of the currency, and the Buy button is always enabled. Upon clicking either button, the BuyWindow or SellWindow are rendered accordingly, along with a Cancel button that closes the newly opened component.
 
-* BuyWindow - 
+* BuyWindow - This component opens up a form with a field where the user may enter the amount of the currency they wish to buy. As values are entered, the cost is automatically calculated and displayed. Once the user has entered the desired amount, they may click the Submit Buy button. This triggers one of two actions. If the user already has a wallet associated with the currency, an updated currency amount and average cost are calculated by taking into account the old amount, the old average cost, the new amount, and the cost of the new amount. The determined values are then sent in a PUT request to the backend, which updates the user's wallet of that currency and then sends back the updated wallet object to which thisWallet state is set. If the user does not have a wallet associated with the currency, a new wallet object is constructed with the user's id, the currency's id, the amount bought, and the cost of the buy. This object is then sent to the backend via a POST request. The response, a newly created user wallet, is then set to the thisWallet state.
 
-* SellWindow -
+* SellWindow - This component behaves like the BuyWindow (although, because a user necessarily has a wallet if they are accessing this component, selling only triggers an update PUT request to the backend). A new average cost and amount of currency are similarly calculated.
 
 * ErrorDisplay - This component is rendered and displays error details in the event of a bad fetch response within any components where that may occur.
 

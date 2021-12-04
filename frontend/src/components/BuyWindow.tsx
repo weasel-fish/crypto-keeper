@@ -59,7 +59,7 @@ function BuyWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, c
                 setBuySellWindow(null)
             })
         } else {
-            console.log('Cant buy')
+            console.log('Cant buy 0 coins')
         }
     }
 

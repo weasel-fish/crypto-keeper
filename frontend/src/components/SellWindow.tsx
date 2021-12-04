@@ -3,7 +3,7 @@ import {API_ROOT} from '../constants'
 import Input from '@mui/material/Input'
 import Button from '@mui/material/Button'
 
-function SellWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, currentUser}: any) {
+function SellWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow}: any) {
     const [coinCount, setCoinCount] = useState(0)
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
@@ -35,7 +35,7 @@ function SellWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, 
                 setBuySellWindow(null)
             })
         } else {
-            console.log('Cant sell')
+            console.log('Cant sell 0 coins')
         }
     }
 
