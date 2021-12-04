@@ -1,7 +1,12 @@
 import { useState } from 'react'
 import Chart from 'react-apexcharts'
+import {CandleData} from './CurrencyGraph'
 
-function CandlestickChart({candles}: any) {
+type CandlestickChartProps = {
+    candles: CandleData[]
+}
+
+function CandlestickChart({candles}: CandlestickChartProps) {
 
     const [candleData, setCandleData] = useState(candles)
 

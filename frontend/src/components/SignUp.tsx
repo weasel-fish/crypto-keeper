@@ -11,7 +11,7 @@ type SignUpProps = {
 function SignUp({handleLogin}: SignUpProps) {
 
     const [formData, setFormData] = useState({name: '', email: ''})
-    const [error, setError] = useState(null)
+    const [error, setError] = useState<string|null>(null)
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
 

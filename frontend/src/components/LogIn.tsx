@@ -15,7 +15,7 @@ function LogIn({handleLogin}: LogInProps) {
 
     const [userList, setUserList] = useState<Array<UserObj> | [] >([])
     const [selected, setSelected] = useState<UserObj>()
-    const [error, setError] = useState(null)
+    const [error, setError] = useState<string|null>(null)
 
     useEffect(() => {
         async function fetchUserList() {
