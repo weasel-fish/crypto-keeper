@@ -10,7 +10,7 @@ For the backend server I used Node with the Express framework, also using TypeSc
 
 The overall architural design for this app is the Model View Controller pattern. Much of these three responsibilities handled among the frontend React components, although the backend server does control the service of data from the database.
 
-<!-- You can see this app live at:  -->
+You can see this app live at: https://zen-curie-61e5e7.netlify.app
 
 
 
