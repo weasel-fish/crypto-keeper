@@ -9,19 +9,22 @@ type SignUpProps = {
     handleLogin: (user: UserObj) => void
 }
 
+// This component presents a form for a user to create a new profile with their name and email
 function SignUp({handleLogin}: SignUpProps) {
 
     const [formData, setFormData] = useState({name: '', email: ''})
     const [error, setError] = useState<string|null>(null)
 
+    // handleChange updates the state for the controlled form name and email inputs
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
-
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         })
     }
 
+    // handleSubmit sends a POST request to the backend to create a new user. If successful, the new user object will be returned
+    // in the response and passed to the handleLogin function in the App component. If unsuccessful, an error will be displayed.
     async function handleSubmit(e: SyntheticEvent) {
         e.preventDefault()
         setError(null)

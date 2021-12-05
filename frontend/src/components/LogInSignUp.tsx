@@ -8,6 +8,8 @@ type LogInSignUpProps = {
     handleLogin: (user: UserObj) => void
 }
 
+// This component conditionally renders the SignUp or LogIn (default) component based on a toggleable state (newUser)
+
 function LogInSignUp({handleLogin}: LogInSignUpProps) {
 
     const [newUser, setNewUser] = useState(false)

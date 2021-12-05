@@ -8,6 +8,8 @@ type HomeProps = {
     setCurrentUser: SetStateAction<any>
 }
 
+// This component renders the CurrencyList component displays a welcome message. If a user is logged in, the welcome message
+// includes their name and the DeleteUser component is rendered at the bottom.
 function Home({currentUser, setCurrentUser}:HomeProps) {
     return (
         <div className="homePage">

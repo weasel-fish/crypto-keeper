@@ -73,7 +73,7 @@ I utilized two tables, users and user_wallets:
 
 - The user_wallets table contains has rows that represent each pairing of a user and a cryptocurrency (the row being generated when a user buys an amount of currency), with columns for the wallet id, user's id, cryptocurrency id, amount of that currency held by the user, and the average cost paid by the user for that currency.
 
-I have included routes to create a new user, get a list of users, get a single user, update a user, and delete a user, although only the first two are utilized by the frontend as it currently exists. As for user wallets, I have included routes to create a new user wallet, get a user wallet for a given user-currency pair, update a user wallet, delete a user wallet, and get all wallets associated with a particular user, although only the first three routes are utilized by the frontend as it currently exists.
+I have included routes to create a new user, get a list of users, get a single user, delete a user, and update a user, although only the first three are utilized by the frontend as it currently exists. As for user wallets, I have included routes to create a new user wallet, get a user wallet for a given user-currency pair, update a user wallet, delete a user wallet, and get all wallets associated with a particular user, although only the first three routes are utilized by the frontend as it currently exists (user wallets will be deleted automatically when their user is deleted).
 
 
 

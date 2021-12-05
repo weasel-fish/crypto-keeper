@@ -1,8 +1,7 @@
-import {ChangeEvent, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { COIN_API_ROOT } from '../constants'
 import CandlestickChart from './CandlestickChart'
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent} from '@mui/material/Select'
 import InputLabel from '@mui/material/InputLabel'
 import ErrorDisplay from './ErrorDisplay'
@@ -35,6 +34,10 @@ function CurrencyGraph({ id }: CurrGraphProps) {
     const [error, setError] = useState<string|null>(null)
     const [candleParams, setCandleParams] = useState<DateParams>(makeDateParams('24'))
 
+
+    // On initial render, a request is made to the Coinbase API for candle data using parameters generated
+    // by the makeDateParams function, with the default being the past 24 hours. The resulting data is then converted
+    // into a useable format and saved to state (candleData). candleData is passed down to the CandlestickChart component
     useEffect(() => {
         setLoading(true)
         async function fetchCandles() {
@@ -56,6 +59,8 @@ function CurrencyGraph({ id }: CurrGraphProps) {
         fetchCandles()
     }, [candleParams])
 
+    // handleRangeChange updates the state that is used to fill out the url request for the currency's candle data.
+    // It updates whenever a new time period is selected from the dropdown menu and passes that choice to the makeDataParams function
     function handleRangeChange(e: SelectChangeEvent) {
         setCandleParams(makeDateParams(e.target.value))
     }
@@ -75,9 +80,9 @@ function CurrencyGraph({ id }: CurrGraphProps) {
     )
 }
 
-// Coinbase: low, high, open, close
-// Chart: open, high, low, close
-
+// convertCandleData converts the data received from Coinbase (which is in the format of [timestamp, low, high, open, close])
+// to the format used by ApexCharts ({x: timestamp, y: [low, high, open, close]}). It also translates the unix timestamp
+// received from Coinbase into the milliseconds used by ApexCharts
 function convertCandleData(data: number[][]):CandleData[] {
     let converted = data.map((array: number[]) => {
         return {
@@ -88,13 +93,17 @@ function convertCandleData(data: number[][]):CandleData[] {
     return converted.reverse()
 }
 
+// formatDate creates a new string for ApexCharts x-axis labels in the form of MN/DY/YEAR 00:00 AM/PM
 function formatDate(date: Date):string {
     let day:string = date.toLocaleDateString()
     let time: string = date.toLocaleTimeString().replace(':00 ', ' ')
     
     return day + ' ' + time
 }
- 
+
+
+// makeDateParams handles the parsing of date ranges and granularity based on the selected time period. It creates an
+// object with all the necessary parameters that are then injected into the candle fetch request to the Coinbase API.
 function makeDateParams(range: string): DateParams {
 
     let daysPrior: number

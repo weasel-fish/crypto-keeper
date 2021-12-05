@@ -18,6 +18,9 @@ type WalletObj = {
    avg_cost: string
 }
 
+// This component is the top level component for an individual currency. It takes in the currency's symbol and name
+// through the url parameters passed to it from the CurrencyList component
+
 function CurrencyPage({currentUser}: CurrencyPageProps) {
 
     const params = useParams()
@@ -27,6 +30,10 @@ function CurrencyPage({currentUser}: CurrencyPageProps) {
     const [error, setError] = useState<string|null>(null)
     const [thisWallet, setThisWallet] = useState<WalletObj | null>(null)
     
+
+    // On initial render, a request to the Coinbase API is made for the currency's ticker information, which includes its
+    // current price. If a user is logged in, a request is made to the backend for the user's wallet for this currency if it
+    // exists
     useEffect(() => {
         async function fetchTicker() {
             let resp = await fetch(`${COIN_API_ROOT}/products/${params.id}-USD/ticker`)
@@ -67,14 +74,13 @@ function CurrencyPage({currentUser}: CurrencyPageProps) {
         fetchTicker()
     }, [])
 
-   
+    // This consolidates current information about to currency for use by CurrencyAccount
     let currencyData = {
         price: cryptoPrice,
         name: params.name,
         id: params.id
     }
-    
-
+  
     return (
         <>
             <div id="currency-page-head">

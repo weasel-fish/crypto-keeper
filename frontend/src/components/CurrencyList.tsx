@@ -4,15 +4,15 @@ import { COIN_API_ROOT } from "../constants"
 import ErrorDisplay from './ErrorDisplay'
 import Button from '@mui/material/Button'
 import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
 import ListItemButton from '@mui/material/ListItemButton'
-import ListSubheader from '@mui/material/ListSubheader'
 import Input from '@mui/material/Input'
 
 type CurrencyObj = {
     [key: string]: any
 }
+
+// This component renders and populates a list of currencies pulled from the Coinbase API. The list is sortable by
+// alphabetical or popularity order. It is also searchable by name or symbol.
 
 function CurrencyList() {
 
@@ -20,10 +20,15 @@ function CurrencyList() {
     const [searchText, setSearchText] = useState<string>('')
     const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string|null>(null)
-    const [sortAlpha, setSortAlpha] = useState(false)
+    const [sortAlpha, setSortAlpha] = useState(false) /* State controlling sort type. The default, 'false'
+                                                         correlates with ordering by popularity and 
+                                                         'true' correlates with alphabetical order */
 
     const navigate = useNavigate()
 
+
+    // On initial render, a request is made to the Coinbase API for a list of currencies, which is returned in the form of an
+    // array. That array is passed through the excludeMoney and sortCurrencies functions before being saved to state.
     useEffect(() => {
         async function fetchCurrencyList() {
             let resp = await fetch(COIN_API_ROOT+'/currencies')
@@ -43,19 +48,25 @@ function CurrencyList() {
         fetchCurrencyList()
     }, [])
 
+    // excludeMoney is used to filter out three fiat currencies that I don't care about from the Coinbase list of currencies
     function excludeMoney(data:CurrencyObj[]): CurrencyObj[] {
         let noMoney: CurrencyObj[] = data.filter((curr:CurrencyObj) => curr.id != 'USD' && curr.id != 'EUR' && curr.id != 'GBP')
         return noMoney
     }
 
+    // handleClick triggers when a listed currency is clicked on, and navigates to the currency's individual page by passing the
+    // currency's id and name as parameters to the url
     function handleClick(name: string, id: string) {
         navigate(`/currency/${name}(${id})`)
     }
 
+    // handleSearch updates the searchText state and controls search input field
     function handleSearch(e: ChangeEvent<HTMLInputElement>){
         setSearchText(e.target.value)
     }
 
+    // sortCurrencies takes an array of currencies sorts them in either alphabetical order or by popularity,
+    // based on the state 'sortAlpha' which is toggled by clicking a button
     function sortCurrencies(data:CurrencyObj[], type:boolean){
         if(type) {
             return data.sort((a, b) => a.name < b.name ? -1 : a.name > b.name ? 1 : 0)
@@ -65,6 +76,8 @@ function CurrencyList() {
     }
 
     const sortedCurrencies: CurrencyObj[] = sortCurrencies(currencies, sortAlpha)
+    // filteredCurrencies is what eventually populates the list. This is immediately updated to reflect any changes
+    // to the search field or to the sort type
     const filteredCurrencies = sortedCurrencies.filter((curr:CurrencyObj) => curr.name.toLowerCase().includes(searchText.toLowerCase()) || curr.id.toLowerCase().includes(searchText.toLowerCase()))
 
     return (
