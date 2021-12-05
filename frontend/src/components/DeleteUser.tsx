@@ -19,10 +19,8 @@ function DeleteUser({currentUser, setCurrentUser }:DeleteUserProps) {
         let resp = await fetch(`${API_ROOT}/users/${currentUser.id}`, {method: 'DELETE'})
 
         if(resp.ok) {
-            resp.json().then(data => {
-                navigate('/')
-                setCurrentUser(null)
-            })
+            navigate('/')
+            setCurrentUser(null)
         } else {
             resp.json().then(error => setError(error))
         }
