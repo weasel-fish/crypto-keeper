@@ -19,7 +19,7 @@ function SellWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow}:
             let newAvg = ((oldAmount * oldAvg) - (coinCount * currencyData.price)) / (oldAmount - coinCount)
             let newAmount = oldAmount - coinCount
             
-            fetch(API_ROOT+`/user_wallets/${thisWallet.id}`, {
+            fetch(`${API_ROOT}/user_wallets/${thisWallet.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -38,8 +38,6 @@ function SellWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow}:
             console.log('Cant sell 0 coins')
         }
     }
-
-    console.log(thisWallet)
 
     return (
         <>

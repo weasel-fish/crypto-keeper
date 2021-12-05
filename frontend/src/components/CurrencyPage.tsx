@@ -29,7 +29,7 @@ function CurrencyPage({currentUser}: CurrencyPageProps) {
     
     useEffect(() => {
         async function fetchTicker() {
-            let resp = await fetch(COIN_API_ROOT+`/products/${params.id}-USD/ticker`)
+            let resp = await fetch(`${COIN_API_ROOT}/products/${params.id}-USD/ticker`)
 
             if(resp.ok) {
                 resp.json().then(data => {
@@ -44,13 +44,11 @@ function CurrencyPage({currentUser}: CurrencyPageProps) {
             }
         }
         async function fetchWallet(id: number) {
-            console.log(API_ROOT+`/user_wallet/${id}/${params.id}`)
-            let resp = await fetch(API_ROOT+`/user_wallet/${id}/${params.id}`)
+            let resp = await fetch(`${API_ROOT}/user_wallet/${id}/${params.id}`)
 
             if(resp.ok) {
                 resp.json().then(data => {
                     if(Object.keys(data).length != 0){
-                        console.log(thisWallet)
                         setThisWallet(data)
                     }
                     setWalletLoading(false)
@@ -63,7 +61,6 @@ function CurrencyPage({currentUser}: CurrencyPageProps) {
         }
 
         if(currentUser){
-            console.log('fetching wallet')
             fetchWallet(currentUser.id)
         }
 

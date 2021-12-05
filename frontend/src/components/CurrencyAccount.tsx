@@ -29,8 +29,6 @@ function CurrencyAccount({currentUser, thisWallet, setThisWallet, currencyData}:
         return change
     }
 
-    console.log(thisWallet)
-
     return (
         <div id="account">
             {thisWallet?.amount > 0 ? <p>You have {parseFloat(thisWallet.amount)} coins of {currencyData.name} at an average cost of ${parseFloat(thisWallet.avg_cost).toFixed(2)}/coin for {calculateChange(thisWallet.avg_cost, currencyData.price)} </p>:null}

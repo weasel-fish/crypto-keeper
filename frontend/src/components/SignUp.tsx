@@ -1,5 +1,6 @@
 import { SyntheticEvent, ChangeEvent, SetStateAction, useState } from "react"
 import { UserObj } from './App'
+import { API_ROOT } from '../constants'
 import Input from '@mui/material/Input'
 import Button from '@mui/material/Button'
 import ErrorDisplay from "./ErrorDisplay"
@@ -25,7 +26,7 @@ function SignUp({handleLogin}: SignUpProps) {
         e.preventDefault()
         setError(null)
 
-        let resp = await fetch('http://localhost:3000/users', { 
+        let resp = await fetch(`${API_ROOT}/users`, { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

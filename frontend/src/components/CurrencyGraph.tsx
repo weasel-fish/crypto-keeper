@@ -1,4 +1,5 @@
 import {ChangeEvent, useEffect, useState } from 'react'
+import { COIN_API_ROOT } from '../constants'
 import CandlestickChart from './CandlestickChart'
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -37,7 +38,7 @@ function CurrencyGraph({ id }: CurrGraphProps) {
     useEffect(() => {
         setLoading(true)
         async function fetchCandles() {
-            let resp = await fetch(`https://api.exchange.coinbase.com/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=${candleParams.startDate}T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
+            let resp = await fetch(`${COIN_API_ROOT}/products/${id}-USD/candles?granularity=${candleParams.granularity}&start=${candleParams.startDate}T${candleParams.startHour}%3A${candleParams.startMin}%3A${candleParams.startSec}&end=${candleParams.endDate}T${candleParams.endHour}%3A${candleParams.endMin}%3A${candleParams.endSec}`)
 
             if(resp.ok){
                 resp.json().then((data: number[][]) => {

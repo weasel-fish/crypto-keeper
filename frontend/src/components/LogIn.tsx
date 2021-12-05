@@ -21,7 +21,7 @@ function LogIn({handleLogin}: LogInProps) {
 
     useEffect(() => {
         async function fetchUserList() {
-            let resp = await fetch(API_ROOT+'/users')
+            let resp = await fetch(`${API_ROOT}/users`)
 
             if(resp.ok) {
                 resp.json().then(data => {

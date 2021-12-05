@@ -45,7 +45,6 @@ function CurrencyList() {
 
     function excludeMoney(data:CurrencyObj[]): CurrencyObj[] {
         let noMoney: CurrencyObj[] = data.filter((curr:CurrencyObj) => curr.id != 'USD' && curr.id != 'EUR' && curr.id != 'GBP')
-        console.log(noMoney)
         return noMoney
     }
 

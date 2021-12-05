@@ -14,7 +14,6 @@ function BuyWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, c
         e.preventDefault()
    
         if(coinCount > 0 && thisWallet) {
-            console.log(thisWallet)
             let oldAvg: number
             if(!thisWallet.avg_cost){
                 oldAvg = 0
@@ -25,7 +24,7 @@ function BuyWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, c
             let newAvg = ((oldAmount * oldAvg) + (coinCount * currencyData.price)) / (oldAmount + coinCount)
             let newAmount = coinCount + oldAmount
             
-            fetch(API_ROOT+`/user_wallets/${thisWallet.id}`, {
+            fetch(`${API_ROOT}/user_wallets/${thisWallet.id}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -41,7 +40,7 @@ function BuyWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, c
                 setBuySellWindow(null)
             })
         } else if (coinCount > 0) {
-            fetch(API_ROOT+`/user_wallets/`, {
+            fetch(`${API_ROOT}/user_wallets/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
