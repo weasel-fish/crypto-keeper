@@ -2,17 +2,17 @@
 
 ### Table of Contents:
 
-[Summary](#-summary)
+[Summary](#summary)
 
-[Project Requirements](#-project-requirements)
+[Project Requirements](#project-requirements)
 
-[Local Setup](#-local-setup)
+[Local Setup](#local-setup)
 
-[Overview of the Backend](#-overview-of-the-backend)
+[Overview of the Backend](#overview-of-the-backend)
 
-[Overview of the Frontend](#-overview-of-the-frontend)
+[Overview of the Frontend](#overview-of-the-frontend)
 
-[User Flow and Views](#-user-flow-and-views)
+[User Flow and Views](#user-flow-and-views)
 
 ### SUMMARY
 
