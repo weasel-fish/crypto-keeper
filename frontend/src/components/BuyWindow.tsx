@@ -3,13 +3,20 @@ import {API_ROOT} from '../constants'
 import Input from '@mui/material/Input'
 import Button from '@mui/material/Button'
 
+
+// This component allows a user to enter an amount (decimals are allowed) of currency to buy and add to their wallet
 function BuyWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow, currentUser}: any) {
     const [coinCount, setCoinCount] = useState(0)
 
+    // handleChange updates the state controlling the input field, setting the amount of currency to buy
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         setCoinCount(parseFloat(e.target.value))
     }
 
+    // handleSubmit will either create a new wallet or update an existing wallet depending on if the user has
+    // bought the given currency in the past. It calculates a new amount and a new average cost by taking into
+    // account the existing amount/average cost and the new amount at the current cost. If the creation or update of the
+    // wallet is successful, the returned wallet object is set to thisWallet state.
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault()
    

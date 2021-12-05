@@ -10,11 +10,14 @@ type DeleteUserProps = {
     setCurrentUser: SetStateAction<any>
 }
 
+// This component renders a button that allows a user to delete their account
 function DeleteUser({currentUser, setCurrentUser }:DeleteUserProps) {
 
     const [error, setError] = useState<string|null>(null)
     const navigate = useNavigate()
 
+    // handleDeleteUser sends a delete request to the backend which should delete the user and any associated wallets
+    // from the database. On success, it will navigate to the home page and set the current user to none
     async function handleDeleteUser() {
         let resp = await fetch(`${API_ROOT}/users/${currentUser.id}`, {method: 'DELETE'})
 

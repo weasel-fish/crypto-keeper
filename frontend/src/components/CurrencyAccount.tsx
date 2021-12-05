@@ -11,10 +11,15 @@ type CurrencyAccountProps = {
     currencyData: any
 }
 
+// This component displays the amount of the given currency owned by the user, if any, and the average price paid for the
+// currency. It also presents buying and selling options
 function CurrencyAccount({currentUser, thisWallet, setThisWallet, currencyData}: CurrencyAccountProps) {
 
     const [buySellWindow, setBuySellWindow] = useState<'sell' | 'buy' | null>(null)
 
+
+    // calculateChange compares the average price paid for the owned currency with the current price of the currency and
+    // constructs a string to communicate the % gain or loss, if any.
     function calculateChange(avgCost: number, currentPrice: number) {
         let ratio = currentPrice / avgCost
         let change
@@ -28,7 +33,8 @@ function CurrencyAccount({currentUser, thisWallet, setThisWallet, currencyData}:
 
         return change
     }
-
+    // Buy and Sell buttons, when clicked, will render the BuyWindow and SellWindow components respectively. The Sell button
+    // is only enabled if the user owns more than 0 of the currency. A Cancel button will close whichever window is open.
     return (
         <div id="account">
             {thisWallet?.amount > 0 ? <p>You have {parseFloat(thisWallet.amount)} coins of {currencyData.name} at an average cost of ${parseFloat(thisWallet.avg_cost).toFixed(2)}/coin for {calculateChange(thisWallet.avg_cost, currencyData.price)} </p>:null}

@@ -3,13 +3,19 @@ import {API_ROOT} from '../constants'
 import Input from '@mui/material/Input'
 import Button from '@mui/material/Button'
 
+
+// This component allows a user to enter an amount (decimals are allowed) of currency to sell and remove from their wallet
 function SellWindow({currencyData, thisWallet, setThisWallet, setBuySellWindow}: any) {
     const [coinCount, setCoinCount] = useState(0)
 
     function handleChange(e: ChangeEvent<HTMLInputElement>) {
         setCoinCount(parseFloat(e.target.value))
     }
-    
+
+    // handleSubmit will update the user's wallet of the given currency. It calculates a new amount
+    // and a new average cost by taking into account the existing amount/average cost and the new amount
+    // at the current price. If the update of the wallet is successful, the returned wallet object is set to
+    // thisWallet state.
     function handleSubmit(e: SyntheticEvent) {
         e.preventDefault()
         

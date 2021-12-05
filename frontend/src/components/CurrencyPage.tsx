@@ -33,7 +33,7 @@ function CurrencyPage({currentUser}: CurrencyPageProps) {
 
     // On initial render, a request to the Coinbase API is made for the currency's ticker information, which includes its
     // current price. If a user is logged in, a request is made to the backend for the user's wallet for this currency if it
-    // exists
+    // exists (which is passed down to the CurrencyAccount component)
     useEffect(() => {
         async function fetchTicker() {
             let resp = await fetch(`${COIN_API_ROOT}/products/${params.id}-USD/ticker`)
@@ -74,7 +74,7 @@ function CurrencyPage({currentUser}: CurrencyPageProps) {
         fetchTicker()
     }, [])
 
-    // This consolidates current information about to currency for use by CurrencyAccount
+    // This consolidates current information about the currency for use by CurrencyAccount
     let currencyData = {
         price: cryptoPrice,
         name: params.name,

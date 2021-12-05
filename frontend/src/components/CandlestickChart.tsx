@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import Chart from 'react-apexcharts'
 import {CandleData} from './CurrencyGraph'
 

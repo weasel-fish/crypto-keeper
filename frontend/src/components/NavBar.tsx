@@ -10,6 +10,9 @@ type NavBarProps = {
     setCurrentUser: SetStateAction<any>
 }
 
+// This component renders a navigation bar at the top of the page. It includes a Crypto Keeper link that navigates to 
+// the home page, and either a Log In / Sign Up button or a Log Out button that navigates to the LogInSignUp page or logs
+// a user out, respectively
 function NavBar({currentUser, setCurrentUser}: NavBarProps) {
 
     const navigate = useNavigate()
