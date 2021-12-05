@@ -1,12 +1,18 @@
 import { Request, Response } from 'express'
 
 let pg = require('pg');
+if (process.env.DATABASE_URL) {
+  pg.defaults.ssl = true;
+}
 
 let connString = process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:localpostgresport/yourlocaldbname';
 const { Pool } = require('pg');
 
 const pool = new Pool({
   connectionString : connString,
+  ssl: {
+    rejectUnauthorized: false,
+  }
 });
 
 const displayHome = (req: Request, res: Response) => {
