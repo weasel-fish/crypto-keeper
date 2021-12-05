@@ -1,5 +1,6 @@
 import { SyntheticEvent, useEffect, useState } from 'react'
 import { UserObj } from './App'
+import {API_ROOT} from '../constants'
 import ErrorDisplay from './ErrorDisplay'
 import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem';
@@ -19,7 +20,7 @@ function LogIn({handleLogin}: LogInProps) {
 
     useEffect(() => {
         async function fetchUserList() {
-            let resp = await fetch('http://localhost:3000/users')
+            let resp = await fetch(API_ROOT+'/users')
 
             if(resp.ok) {
                 resp.json().then(setUserList)
