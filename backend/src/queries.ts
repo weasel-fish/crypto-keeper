@@ -1,4 +1,4 @@
-import { Request, Response, NextFunction } from 'express'
+import { Request, Response } from 'express'
 
 const Pool = require('pg').Pool
 const pool = new Pool({

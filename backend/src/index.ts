@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express'
+import express from 'express'
 const bodyParser = require('body-parser')
 const db = require('./queries')
 const app = express()
