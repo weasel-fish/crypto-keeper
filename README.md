@@ -38,6 +38,8 @@ PROJECT REQUIREMENTS
   * This app makes use of a Node.js server I created that performs all of those operations, whether on users or their currency wallets
 * Usage of at least 5 UI components from the material-ui/@core library
   * This app uses the Button, AppBar, ToolBar, List, ListItemButton, Input, InputLabel, Select, and MenuItem material-ui components
+* An example of a reusable component that you have created and used in the app
+  * The CurrencyGraph component can take in 
 
 
 LOCAL SETUP
@@ -121,7 +123,7 @@ If they do not yet have an account, the user may click the Sign Up button, which
 
 <img src="./readme_images/signup-page.png" alt="signup page" width='500px' title="Signup Page" />
 
-When the user clicks either the Create Account or Log In button, they are logged in as the current (or recently created) user and redirected to the home page, this time with a personalized welcome message. Where the 'LOG IN / SIGN UP' button was previously is now a 'LOG OUT' button, which will log the user out when clicked.
+When the user clicks either the Create Account or Log In button, they are logged in as the current (or recently created) user and redirected to the home page, this time with a personalized welcome message. Where the 'LOG IN / SIGN UP' button was previously is now a 'LOG OUT' button, which will log the user out when clicked. There will also now be a DELETE YOUR ACCOUNT BUTTON below which will delete the user's profile.
 
 <img src="./readme_images/welcome-user.png" alt="welcome page" width='500px' title="Welcome Page" />
 

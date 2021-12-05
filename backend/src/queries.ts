@@ -92,9 +92,15 @@ const deleteUser = (req:Request, res:Response) => {
     if (error) {
       res.status(404).json(error)
     } else {
-      res.status(200).send('User deleted successfully.')
-    }
-  })
+      pool.query('DELETE FROM user_wallets WHERE user_id = $1', [id], (error: Error, result: any) => {
+        if(error) {
+          res.status(404).json(error)
+        } else {
+          res.status(200).send('User deleted successfully.')
+        }
+      })
+  }
+})
 }
 
 const getUserWallets = (req:Request, res:Response) => {
