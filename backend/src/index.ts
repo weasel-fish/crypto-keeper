@@ -1,12 +1,13 @@
 import express from 'express'
+require('dotenv').config()
 const bodyParser = require('body-parser')
 const db = require('./queries')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000
 const cors = require('cors')
 
 app.use(cors({
-    origin: 'http://localhost:4000'
+    origin: process.env.FRONTEND_URL
 }))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extended: true}))
