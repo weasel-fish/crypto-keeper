@@ -16,6 +16,7 @@ function LogIn({handleLogin}: LogInProps) {
 
     const [userList, setUserList] = useState<Array<UserObj> | [] >([])
     const [selected, setSelected] = useState<UserObj>()
+    const [loading, setLoading] = useState<boolean>(true)
     const [error, setError] = useState<string|null>(null)
 
     useEffect(() => {
@@ -23,7 +24,10 @@ function LogIn({handleLogin}: LogInProps) {
             let resp = await fetch(API_ROOT+'/users')
 
             if(resp.ok) {
-                resp.json().then(setUserList)
+                resp.json().then(data => {
+                    setUserList(data)
+                    setLoading(false)
+                })
             } else {
                 resp.json().then(error => setError(error.detail))
             }
@@ -48,6 +52,7 @@ function LogIn({handleLogin}: LogInProps) {
         <div id='login-container'>
             {error ? <ErrorDisplay error={error}/> : null}
             <p>Select your username:</p>
+            {loading ? <p>Loading...</p> : 
                 <form id='login-form' onSubmit={handleSubmit}>
                     <FormControl size='medium' variant='filled'>
                         <InputLabel>User</InputLabel>
@@ -57,6 +62,7 @@ function LogIn({handleLogin}: LogInProps) {
                         <Button id='login-button' type='submit' disabled={!selected}>Log In</Button>
                     </FormControl>
                 </form>
+            }
         </div>
     )
 }
