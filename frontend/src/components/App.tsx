@@ -26,11 +26,10 @@ function App() {
     <> 
       <NavBar currentUser={currentUser} setCurrentUser={setCurrentUser}/>
       <Routes>
-        <Route path='/' element={<Home currentUser={currentUser}/>}/>
+        <Route path='/' element={<Home currentUser={currentUser} setCurrentUser={setCurrentUser}/>}/>
         <Route path='/login' element={<LogInSignUp handleLogin={handleLogin}/>} />
         <Route path='/currency/:name(:id)' element={<CurrencyPage currentUser={currentUser}/>}/>
       </Routes>
-      {/* <CurrencyList /> */}
     </>
   )
 }

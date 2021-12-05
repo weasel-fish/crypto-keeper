@@ -1,5 +1,19 @@
 CRYPTO KEEPER README
 
+Table of Contents:
+
+Summary
+
+Project Requirements
+
+Local Setup
+
+Overview of the Backend
+
+Overview of the Frontend
+
+User Flow and Views
+
 SUMMARY
 
 Crypto Keeper is a simple cryptocurrency investment platform that presents price history data for over one hundred cryptocurrencies. It also simulates the ability to buy and sell cryptocurrencies and track potential gains and losses due to price fluctuation.
@@ -12,6 +26,18 @@ The overall architural design for this app is the Model View Controller pattern.
 
 You can see this app live at: https://zen-curie-61e5e7.netlify.app
 
+PROJECT REQUIREMENTS
+
+* This app uses a modern JS Library/Framework:
+  * React.js
+* This app can be interacted with in a minimum of three different ways by the user:
+  * Users can create a profile, log in, view stats for individual currencies, switch between time ranges for historical data, and buy and sell currencies (not actually, it's just simulated)
+* The usage of a specified architural pattern:
+  * This app uses a MVC pattern
+* Integration with a backend service developed by you with CRUD operations:
+  * This app makes use of a Node.js server I created that performs all of those operations, whether on users or their currency wallets
+* Usage of at least 5 UI components from the material-ui/@core library
+  * This app uses the Button, AppBar, ToolBar, List, ListItemButton, Input, InputLabel, Select, and MenuItem material-ui components
 
 
 LOCAL SETUP
