@@ -19,6 +19,7 @@ const displayHome = (req: Request, res: Response) => {
   res.status(200).json('Hello and welcome to the Crypto Keeper server')
 }
 
+// Returns an array of all users
 const getUsers = (req: Request, res: Response) => {
     pool.query('SELECT * FROM users ORDER BY id ASC', (error: Error, result: any) => {
         if (error) {
@@ -30,6 +31,7 @@ const getUsers = (req: Request, res: Response) => {
     })
 }
 
+// Returns a single user as specified by their id
 const getUserById = (req:Request, res:Response) => {
   const id = parseInt(req.params.id)
 
@@ -37,11 +39,12 @@ const getUserById = (req:Request, res:Response) => {
     if (error) {
       res.status(404).json(error)
     } else {
-      res.status(200).json(result.rows)
+      res.status(200).json(result.rows[0])
     }
   })
 }
 
+// Creates a new user and returns the newly created user object
 const createUser = (req:Request, res:Response) => {
   const { name, email } = req.body
 
@@ -61,14 +64,13 @@ const createUser = (req:Request, res:Response) => {
   })
 }
 
+// Updates a user's name or email and returns the newly updated user object
 const updateUser = (req:Request, res:Response) => {
   const id = parseInt(req.params.id)
   const { name, email } = req.body
 
   pool.query(
-    'UPDATE users SET name = $1, email = $2 WHERE id = $3',
-    [name, email, id],
-    (error: Error, results: any) => {
+    'UPDATE users SET name = $1, email = $2 WHERE id = $3', [name, email, id], (error: Error, results: any) => {
       if (error) {
         res.status(422).json(error)
       } else {
@@ -85,6 +87,7 @@ const updateUser = (req:Request, res:Response) => {
   )
 }
 
+// Deletes a user as specified by their id, then deletes any wallets associated with that id
 const deleteUser = (req:Request, res:Response) => {
   const id = parseInt(req.params.id)
 
@@ -99,10 +102,11 @@ const deleteUser = (req:Request, res:Response) => {
           res.status(200).send('User deleted successfully.')
         }
       })
-  }
-})
+    }
+  })
 }
 
+// Returns an array of all wallets associated with a user as specified by their id
 const getUserWallets = (req:Request, res:Response) => {
   const id = parseInt(req.params.id)
   pool.query('SELECT * FROM user_wallets WHERE user_id = $1 ORDER BY id ASC', [id], (error: Error, result: any) => {
@@ -112,9 +116,10 @@ const getUserWallets = (req:Request, res:Response) => {
       let rows = result.rows
       res.status(200).json(rows)
     }
-})
+  })
 }
-
+// Returns a single wallet, if it exists, as specified by the user's id and the currency id/symbol. If it doesn't exist,
+// returns an empty object
 const getUserWallet = (req:Request, res:Response) => {
   const user_id = req.params.user_id
   const currency_id = req.params.currency_id
@@ -129,6 +134,8 @@ const getUserWallet = (req:Request, res:Response) => {
   })
 }
 
+// Creates a new wallet associated with a particular user and currency, using the amount and average cost provided by the
+// frontend. Returns the new wallet object
 const createUserWallet = (req:Request, res:Response) => {
   const { user_id, currency_id, amount, avg_cost } = req.body
 
@@ -147,6 +154,8 @@ const createUserWallet = (req:Request, res:Response) => {
   })
 }
 
+// Updates the wallet associated with a particular user and currency, using the new amount and average cost provided by the
+// frontend. Returns the updated wallet object
 function updateUserWallet(req:Request, res:Response) {
   const id = parseInt(req.params.id)
   const { amount, avg_cost } = req.body
@@ -165,6 +174,7 @@ function updateUserWallet(req:Request, res:Response) {
   })
 }
 
+// Deletes a wallet as specified by the wallet id
 const deleteUserWallet = (req:Request, res:Response) => {
   const id = parseInt(req.params.id)
 
