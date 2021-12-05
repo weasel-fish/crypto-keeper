@@ -1,20 +1,20 @@
-CRYPTO KEEPER README
+## CRYPTO KEEPER
 
-Table of Contents:
+### Table of Contents:
 
-Summary
+[Summary](#-summary)
 
-Project Requirements
+[Project Requirements](#-project-requirements)
 
-Local Setup
+[Local Setup](#-local-setup)
 
-Overview of the Backend
+[Overview of the Backend](#-overview-of-the-backend)
 
-Overview of the Frontend
+[Overview of the Frontend](#-overview-of-the-frontend)
 
-User Flow and Views
+[User Flow and Views](#-user-flow-and-views)
 
-SUMMARY
+### SUMMARY
 
 Crypto Keeper is a simple cryptocurrency investment platform that presents price history data for over one hundred cryptocurrencies. It also simulates the ability to buy and sell cryptocurrencies and track potential gains and losses due to price fluctuation.
 
@@ -26,7 +26,7 @@ The overall architural design for this app is the Model View Controller pattern.
 
 You can see this app live at: https://zen-curie-61e5e7.netlify.app
 
-PROJECT REQUIREMENTS
+### PROJECT REQUIREMENTS
 
 * This app uses a modern JS Library/Framework:
   * React.js
@@ -35,14 +35,14 @@ PROJECT REQUIREMENTS
 * The usage of a specified architural pattern:
   * This app uses a MVC pattern
 * Integration with a backend service developed by you with CRUD operations:
-  * This app makes use of a Node.js server I created that performs all of those operations, whether on users or their currency wallets
+  * This app makes use of a Node.js server I created that creates, reads, and deletes users and creates, reads, updates, and deletes user wallets
 * Usage of at least 5 UI components from the material-ui/@core library
   * This app uses the Button, AppBar, ToolBar, List, ListItemButton, Input, InputLabel, Select, and MenuItem material-ui components
 * An example of a reusable component that you have created and used in the app
-  * The CurrencyGraph component can take in 
+  * The CurrencyGraph component can take in a cryptocurrency symbol/id and produce a candlestick chart presenting price movement history for that currency, as well as options to adjust the viewed time range
 
 
-LOCAL SETUP
+### LOCAL SETUP
 
 App Setup
 1. Fork and clone this repository.
@@ -63,7 +63,7 @@ Starting the App
 3. Everything should be up and running!
 
 
-OVERVIEW OF THE BACKEND
+### OVERVIEW OF THE BACKEND
 
 I designed the backend as an API that communicates user and user-owned currency data between a PostgreSQL database and the frontend; the API serves up that information in the JSON format.
 
@@ -77,7 +77,7 @@ I have included routes to create a new user, get a list of users, get a single u
 
 
 
-OVERVIEW OF THE FRONTEND
+### OVERVIEW OF THE FRONTEND
 
 Components:
 * App - The top level component. It stores the current user in state (if someone is logged in) and passes it down to child components NavBar, Home, and CurrencyPage, the rendering of which will change depending on whether a user is logged in or not. This component includes the handleLogin function, which sets the current user and navigates to the home page. The NavBar is always rendered, and the Home, LogInSignUp, and CurrencyPage components are conditionally rendered and are tied to their respective Routes (a function of react-router-dom).
@@ -90,7 +90,9 @@ Components:
 
 * SignUp - This component contains a form with controlled inputs for a user's name and email that are tracked in state as the object formData. Upon submitting the form, a fetch post request is sent to the backend, with the body in the form of { name: ' ', email: ' '}. If successful, the created user object will be sent back in the response and the handleLogin function (again, passed down from App) will set the new user object as the current user.
 
-* Home - This component displays a welcome message that includes the logged in user's name if anyone is logged in. It also renders the CurrencyList component.
+* Home - This component displays a welcome message that includes the logged in user's name and renders the DeleteUser component if anyone is logged in. It also renders the CurrencyList component.
+
+* DeleteUser - This component displays a button that when clicked sends a delete request to the backend which will delete the user and any associated user wallets.
 
 * CurrencyList - This component, on initial render, fetches a list of currencies from the Coinbase API via the url 'https://api.exchange.coinbase.com/currencies'. This returns an array of objects, each representing a currency and containing a host of information. Upon a successful fetch, the array is filtered to remove a few fiat currencies (USD, GBP, EUR), sorted by it's 'sort_order' value (which I have assumed is popularity or activity, but I could be wrong), and then stored in state. That state is then passed through a filter which matches the currencies to any value entered into the search field (a controlled input, the value of which is held in the searchText state). This filtered list (which when the search field is empty contains all currencies) is then used to populate a scrollable list that displays each currency's name and symbol/id. A button toggles the sortAlpha state which switches the list between alphabetical and popularity ordering. Each list item is clickable, and when clicked will navigate the user to the currency's individual page (passing along the currency's name and id in the route parameters).
 
@@ -109,7 +111,7 @@ Components:
 * ErrorDisplay - This component is rendered and displays error details in the event of a bad fetch response within any components where that may occur.
 
 
-USER FLOW AND VIEWS
+### USER FLOW AND VIEWS
 
 On starting up Crypto Keeper a user will be greeted by the welcome page, which includes a scrollable list of all the cryptocurrencies that may be viewed. The list may be searched by typing in search box, which will continually filter the list to include only matching currencies or currency symbols. The list may also be toggled between alphabetical order and order of popularity (the default) by clicking on the button next to the search field. Clicking on 'CRYPTO KEEPER' in the top right will always return a user to this page.
 
