@@ -20,6 +20,8 @@ function App() {
 
   const navigate = useNavigate()
 
+  console.log(process.env.NODE_ENV)
+
   // handleLogin sets the user to the user selected or created in the LogInSignUp component and navigates to the Home component.
   function handleLogin(user: UserObj):void {
       setCurrentUser(user)
