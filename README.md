@@ -18,29 +18,11 @@
 
 Crypto Keeper is a simple cryptocurrency investment platform that presents price history data for over one hundred cryptocurrencies. It also simulates the ability to buy and sell cryptocurrencies and track potential gains and losses due to price fluctuation.
 
-For the frontend, I used the React library using TypeScript. I used several Material-UI components to style the app, as well as ApexCharts to display historical price fluctuation. I used the Coinbase Pro API to gather all cryptocurrency data used in this app.
+For the frontend, I used React written in TypeScript. I used several Material-UI components to style the app, as well as ApexCharts to display historical price fluctuation. I accessed the Coinbase Pro API to gather all cryptocurrency data used in this app.
 
-For the backend server I used Node with the Express framework, also using TypeScript. The server connects with a PostgreSQL database which stores user and user' cryptocurrency ownership data.
-
-The overall architural design for this app is the Model View Controller pattern. Much of these three responsibilities handled among the frontend React components, although the backend server does control the service of data from the database.
+For the backend server I used Node with the Express framework, also written TypeScript. The server connects with a PostgreSQL database which stores user and cryptocurrency ownership data.
 
 You can see this app live at: https://zen-curie-61e5e7.netlify.app
-
-### PROJECT REQUIREMENTS
-
-* This app uses a modern JS Library/Framework:
-  * React.js
-* This app can be interacted with in a minimum of three different ways by the user:
-  * Users can create a profile, log in, view stats for individual currencies, switch between time ranges for historical data, and buy and sell currencies (not actually, it's just simulated)
-* The usage of a specified architural pattern:
-  * This app uses a MVC pattern
-* Integration with a backend service developed by you with CRUD operations:
-  * This app makes use of a Node.js server I created that creates, reads, and deletes users and creates, reads, updates, and deletes user wallets
-* Usage of at least 5 UI components from the material-ui/@core library
-  * This app uses the Button, AppBar, ToolBar, List, ListItemButton, Input, InputLabel, Select, and MenuItem material-ui components
-* An example of a reusable component that you have created and used in the app
-  * The CurrencyGraph component can take in a cryptocurrency symbol/id and produce a candlestick chart presenting price movement history for that currency, as well as options to adjust the viewed time range
-
 
 ### LOCAL SETUP
 
