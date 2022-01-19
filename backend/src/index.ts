@@ -1,7 +1,9 @@
 import express from 'express'
 require('dotenv').config()
 const bodyParser = require('body-parser')
-const db = require('./queries')
+const userQs = require('./queries/user_queries')
+const walletQs = require('./queries/user_wallet_queries')
+const welcome = require('./queries/welcome')
 const app = express()
 const port = process.env.PORT || 3000
 const cors = require('cors')
@@ -16,14 +18,14 @@ app.listen(port, () => {
     console.log(`Hello I am running on port ${port}`)
 })
 
-app.get('/', db.displayHome) // Not used by frontend
-app.get('/users', db.getUsers)
-app.get('/users/:id', db.getUserById) // Not used by frontend
-app.post('/users', db.createUser)
-app.put('/users/:id', db.updateUser) // Not used by frontend
-app.delete('/users/:id', db.deleteUser)
-app.get('/user_wallets/:id', db.getUserWallets) // Not used by frontend
-app.get('/user_wallet/:user_id/:currency_id', db.getUserWallet)
-app.post('/user_wallets', db.createUserWallet)
-app.put('/user_wallets/:id', db.updateUserWallet)
-app.delete('/user_wallets/:id', db.deleteUserWallet) // Not used by frontend
+app.get('/', welcome.displayHome) // Not used by frontend
+app.get('/users', userQs.getUsers)
+app.get('/users/:id', userQs.getUserById) // Not used by frontend
+app.post('/users', userQs.createUser)
+app.put('/users/:id', userQs.updateUser) // Not used by frontend
+app.delete('/users/:id', userQs.deleteUser)
+app.get('/user_wallets/:id', walletQs.getUserWallets) // Not used by frontend
+app.get('/user_wallet/:user_id/:currency_id', walletQs.getUserWallet)
+app.post('/user_wallets', walletQs.createUserWallet)
+app.put('/user_wallets/:id', walletQs.updateUserWallet)
+app.delete('/user_wallets/:id', walletQs.deleteUserWallet) // Not used by frontend
