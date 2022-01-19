@@ -46,6 +46,7 @@ function SignUp({handleLogin}: SignUpProps) {
             })
         } else {
             resp.json().then(error => {
+                console.log(error)
                 setError(error.detail)
                 setFormData({name: '', email: ''})
             })

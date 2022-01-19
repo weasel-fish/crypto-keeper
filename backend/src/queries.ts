@@ -5,15 +5,25 @@ if (process.env.DATABASE_URL) {
   pg.defaults.ssl = true;
 }
 
-let connString = process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:localpostgresport/yourlocaldbname';
 const { Pool } = require('pg');
 
-const pool = new Pool({
-  connectionString : connString,
+const devConfig = {
+  user: 'kyleermentrout',
+  host: 'localhost',
+  database: 'crypto_keeper_dev',
+  port: 5432
+}
+
+const prodConfig = {
+  connectionString : process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false,
   }
-});
+}
+
+const pool = new Pool(process.env.NODE_ENV === 'production' ? prodConfig : devConfig);
+
+
 
 const displayHome = (req: Request, res: Response) => {
   res.status(200).json('Hello and welcome to the Crypto Keeper server')
